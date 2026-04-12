@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEAP — Lead. Empower. Advocate. Play.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream: #FFF8F0;
+            --warm-white: #FFFDFB;
+            --peach: #FFCBA4;
+            --peach-light: #FFE8D6;
+            --coral: #FF6B6B;
+            --teal: #2EC4B6;
+            --teal-dark: #1A9E92;
+            --sage: #95BF74;
+            --lavender: #B8A9C9;
+            --navy: #1D2B3A;
+            --charcoal: #2D3436;
+            --warm-gray: #6B6054;
+            --sand: #E8DDD3;
+            --font-display: 'Fraunces', serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--charcoal);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============ NAV ============ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 248, 240, 0.92);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.75rem;
+            color: var(--teal-dark);
+            letter-spacing: -0.02em;
+            text-decoration: none;
+        }
+
+        .nav-logo span { color: var(--coral); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--teal);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--teal-dark); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-cta {
+            background: var(--teal) !important;
+            color: white !important;
+            padding: 0.65rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 16px rgba(46, 196, 182, 0.3);
+        }
+
+        .nav-cta:hover {
+            background: var(--teal-dark) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(46, 196, 182, 0.4);
+        }
+
+        .nav-cta::after { display: none !important; }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .mobile-toggle span {
+            width: 26px;
+            height: 2.5px;
+            background: var(--charcoal);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 8rem 2rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-bg .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: blobFloat 12s ease-in-out infinite;
+        }
+
+        .hero-bg .blob-1 {
+            width: 500px; height: 500px;
+            background: var(--peach);
+            top: -10%; right: -5%;
+            animation-delay: 0s;
+        }
+
+        .hero-bg .blob-2 {
+            width: 400px; height: 400px;
+            background: var(--teal);
+            bottom: -10%; left: -5%;
+            animation-delay: -4s;
+            opacity: 0.25;
+        }
+
+        .hero-bg .blob-3 {
+            width: 300px; height: 300px;
+            background: var(--lavender);
+            top: 30%; left: 40%;
+            animation-delay: -8s;
+            opacity: 0.2;
+        }
+
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -20px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content { animation: fadeUp 1s ease 0.2s both; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(46, 196, 182, 0.1);
+            border: 1px solid rgba(46, 196, 182, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--teal-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge::before {
+            content: '✦';
+            font-size: 0.75rem;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--navy);
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--warm-gray);
+            max-width: 480px;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--teal);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(46, 196, 182, 0.35);
+            font-family: var(--font-body);
+        }
+
+        .btn-primary:hover {
+            background: var(--teal-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(46, 196, 182, 0.45);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--charcoal);
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid var(--sand);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-body);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--teal);
+            color: var(--teal-dark);
+        }
+
+        /* Hero visual */
+        .hero-visual {
+            position: relative;
+            animation: fadeUp 1s ease 0.5s both;
+        }
+
+        .hero-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--teal), var(--sage), var(--peach), var(--coral), var(--lavender));
+        }
+
+        .acronym-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .acronym-item {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .acronym-letter {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 800;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            flex-shrink: 0;
+        }
+
+        .acronym-item:nth-child(1) .acronym-letter {
+            background: rgba(46, 196, 182, 0.12);
+            color: var(--teal-dark);
+        }
+        .acronym-item:nth-child(2) .acronym-letter {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--coral);
+        }
+        .acronym-item:nth-child(3) .acronym-letter {
+            background: rgba(184, 169, 201, 0.15);
+            color: #8B7BA8;
+        }
+        .acronym-item:nth-child(4) .acronym-letter {
+            background: rgba(149, 191, 116, 0.15);
+            color: #6E9E4C;
+        }
+
+        .acronym-text h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.15rem;
+        }
+
+        .acronym-text p {
+            font-size: 0.9rem;
+            color: var(--warm-gray);
+            line-height: 1.5;
+        }
+
+        /* ============ VALUES ============ */
+        .values {
+            padding: 6rem 2rem;
+            background: white;
+            position: relative;
+        }
+
+        .values::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--teal), var(--peach));
+            border-radius: 4px;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--teal);
+            margin-bottom: 0.75rem;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 700;
+            color: var(--navy);
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .section-sub {
+            font-size: 1.05rem;
+            color: var(--warm-gray);
+            line-height: 1.7;
+            max-width: 560px;
+            margin-bottom: 3.5rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .value-card {
+            padding: 2rem;
+            border-radius: 20px;
+            background: var(--cream);
+            border: 1px solid transparent;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            border-color: rgba(46, 196, 182, 0.2);
+        }
+
+        .value-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .value-card:nth-child(1) .value-icon { background: rgba(46, 196, 182, 0.12); }
+        .value-card:nth-child(2) .value-icon { background: rgba(255, 107, 107, 0.1); }
+        .value-card:nth-child(3) .value-icon { background: rgba(149, 191, 116, 0.12); }
+        .value-card:nth-child(4) .value-icon { background: rgba(184, 169, 201, 0.12); }
+        .value-card:nth-child(5) .value-icon { background: rgba(255, 203, 164, 0.2); }
+        .value-card:nth-child(6) .value-icon { background: rgba(46, 196, 182, 0.12); }
+
+        .value-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .value-card p {
+            font-size: 0.9rem;
+            color: var(--warm-gray);
+            line-height: 1.65;
+        }
+
+        /* ============ ABOUT ============ */
+        .about {
+            padding: 6rem 2rem;
+            background: var(--cream);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-image {
+            width: 100%;
+            aspect-ratio: 4/5;
+            border-radius: 24px;
+            background: linear-gradient(135deg, var(--peach-light), var(--sand));
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-image-inner {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .about-image-inner .years {
+            font-family: var(--font-display);
+            font-size: 5rem;
+            font-weight: 800;
+            color: var(--teal-dark);
+            line-height: 1;
+        }
+
+        .about-image-inner .years-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--warm-gray);
+            margin-top: 0.5rem;
+        }
+
+        .about-float-card {
+            position: absolute;
+            bottom: -1.5rem;
+            right: -1.5rem;
+            background: white;
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .about-float-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(46, 196, 182, 0.12);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .about-float-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--navy);
+        }
+
+        .about-float-text span {
+            display: block;
+            font-weight: 400;
+            font-size: 0.8rem;
+            color: var(--warm-gray);
+        }
+
+        .about-content h2 { margin-bottom: 1.5rem; }
+
+        .about-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--warm-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .highlight-check {
+            width: 24px;
+            height: 24px;
+            background: rgba(46, 196, 182, 0.12);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: var(--teal-dark);
+            font-size: 0.8rem;
+        }
+
+        .highlight-item p {
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+
+        .highlight-item strong {
+            color: var(--navy);
+        }
+
+        /* ============ SERVICES ============ */
+        .services {
+            padding: 6rem 2rem;
+            background: var(--navy);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .services::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(46, 196, 182, 0.08);
+            filter: blur(80px);
+        }
+
+        .services .section-label { color: var(--peach); }
+        .services h2 { color: white; }
+        .services .section-sub { color: rgba(255,255,255,0.6); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 2.25rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .service-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(46, 196, 182, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .service-num {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.08);
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: white;
+        }
+
+        .service-card p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.55);
+        }
+
+        /* ============ CTA ============ */
+        .cta {
+            padding: 6rem 2rem;
+            background: var(--cream);
+            text-align: center;
+        }
+
+        .cta-inner {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-inner h2 {
+            margin-bottom: 1rem;
+        }
+
+        .cta-inner h2 em {
+            font-style: italic;
+            color: var(--teal);
+        }
+
+        .cta-sub {
+            font-size: 1.1rem;
+            color: var(--warm-gray);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            padding: 3rem 2rem;
+            background: white;
+            border-top: 1px solid var(--sand);
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--teal-dark);
+        }
+
+        .footer-brand span { color: var(--coral); }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--warm-gray);
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-visual { max-width: 500px; }
+            .values-grid { grid-template-columns: repeat(2, 1fr); }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .about-visual { max-width: 400px; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .mobile-toggle { display: flex; }
+
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 248, 240, 0.98);
+                backdrop-filter: blur(16px);
+                padding: 1.5rem 2rem;
+                gap: 1.25rem;
+                box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            }
+
+            .hero { padding: 7rem 1.5rem 3rem; min-height: auto; }
+            .values, .about, .services, .cta { padding: 4rem 1.5rem; }
+            .values-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+
+            .about-float-card {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin-top: 1rem;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+    <a href="#" class="nav-logo">LEAP<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#values">Values</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact" class="nav-cta">Take the Leap</a></li>
+    </ul>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="hero-inner">
+        <div class="hero-content">
+            <div class="hero-badge">BCBA Consulting &amp; Behavioral Services</div>
+            <h1>Let kids <em>lead</em> the&nbsp;way.</h1>
+            <p class="hero-sub">Play-based, compassionate ABA consulting built on 15 years of experience helping families thrive — because every child communicates, and every step forward matters.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn-primary">Get Started →</a>
+                <a href="#about" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-card">
+                <div class="acronym-grid">
+                    <div class="acronym-item">
+                        <div class="acronym-letter">L</div>
+                        <div class="acronym-text">
+                            <h3>Lead</h3>
+                            <p>Let kids lead — follow their curiosity</p>
+                        </div>
+                    </div>
+                    <div class="acronym-item">
+                        <div class="acronym-letter">E</div>
+                        <div class="acronym-text">
+                            <h3>Empower</h3>
+                            <p>Equip families with lasting tools</p>
+                        </div>
+                    </div>
+                    <div class="acronym-item">
+                        <div class="acronym-letter">A</div>
+                        <div class="acronym-text">
+                            <h3>Advocate</h3>
+                            <p>"Noncompliance" is communication</p>
+                        </div>
+                    </div>
+                    <div class="acronym-item">
+                        <div class="acronym-letter">P</div>
+                        <div class="acronym-text">
+                            <h3>Play</h3>
+                            <p>All play is okay — learn through joy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- VALUES -->
+<section class="values" id="values">
+    <div class="section-inner">
+        <div class="section-label reveal">What We Believe</div>
+        <h2 class="reveal">Built on values that<br>put children first.</h2>
+        <p class="section-sub reveal">These aren't just words on a wall. They guide every session, every conversation, and every plan we build together.</p>
+        <div class="values-grid">
+            <div class="value-card reveal">
+                <div class="value-icon">🌱</div>
+                <h3>Let Kids Lead</h3>
+                <p>Children are the experts on their own experience. We follow their lead, honor their pace, and build from their strengths.</p>
+            </div>
+            <div class="value-card reveal">
+                <div class="value-icon">🎯</div>
+                <h3>Progress Over Perfection</h3>
+                <p>Growth isn't linear. We celebrate every step forward and redefine what "success" looks like for each unique child.</p>
+            </div>
+            <div class="value-card reveal">
+                <div class="value-icon">🎉</div>
+                <h3>Celebrate Small Wins</h3>
+                <p>The moments that matter most are often the quietest. A new word, a shared smile, a brave attempt — we see it all.</p>
+            </div>
+            <div class="value-card reveal">
+                <div class="value-icon">🤝</div>
+                <h3>Model Without Expectation</h3>
+                <p>We show up with patience and consistency, creating space for children to engage on their own terms and timeline.</p>
+            </div>
+            <div class="value-card reveal">
+                <div class="value-icon">💬</div>
+                <h3>"Noncompliance" Is Communication</h3>
+                <p>When a child says no — with words or behavior — they're telling us something important. We listen, not override.</p>
+            </div>
+            <div class="value-card reveal">
+                <div class="value-icon">🧩</div>
+                <h3>All Play Is Okay</h3>
+                <p>Play is how children learn, connect, and heal. There's no wrong way to play, and every form of play has value.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="section-inner">
+        <div class="about-grid">
+            <div class="about-visual reveal">
+                <div class="about-image">
+                    <div class="about-image-inner">
+                        <div class="years">15+</div>
+                        <div class="years-label">Years in the Field</div>
+                    </div>
+                </div>
+                <div class="about-float-card">
+                    <div class="about-float-icon">🎓</div>
+                    <div class="about-float-text">
+                        Board Certified (BCBA)
+                        <span>8 years certified</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-content reveal">
+                <div class="section-label">About the Founder</div>
+                <h2>A leader in the field, now leading her&nbsp;own.</h2>
+                <p class="about-text">With over 15 years of experience in behavioral health and nearly a decade as a Board Certified Behavior Analyst, LEAP's founder has served as a Regional Manager and Director of Training — shaping programs, mentoring clinicians, and transforming outcomes for hundreds of families.</p>
+                <p class="about-text">Now, she's bringing that same depth of expertise to her own consulting practice — one built on compassion, play, and the radical belief that every child already has what they need to thrive.</p>
+                <div class="about-highlights">
+                    <div class="highlight-item">
+                        <div class="highlight-check">✓</div>
+                        <p><strong>Regional Manager</strong> — overseeing multi-site ABA programs</p>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-check">✓</div>
+                        <p><strong>Director of Training</strong> — developing clinician skill and quality of care</p>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-check">✓</div>
+                        <p><strong>Play-based philosophy</strong> — evidence-driven, child-centered approach</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+    <div class="section-inner">
+        <div class="section-label reveal">What We Offer</div>
+        <h2 class="reveal">Services designed around<br>your child's world.</h2>
+        <p class="section-sub reveal">Comprehensive behavioral consulting that meets families where they are.</p>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-num">01</div>
+                <h3>ABA Assessment & Treatment Planning</h3>
+                <p>Comprehensive behavioral assessments that go beyond checklists — understanding the whole child, their environment, and their unique communication style.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-num">02</div>
+                <h3>Parent & Caregiver Coaching</h3>
+                <p>Empowering families with practical strategies they can use every day. Because the people who know a child best should feel confident supporting them.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-num">03</div>
+                <h3>Clinical Supervision & Training</h3>
+                <p>Mentoring the next generation of BCBAs and RBTs with hands-on, ethical, compassionate supervision rooted in real-world experience.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-num">04</div>
+                <h3>Program Development</h3>
+                <p>Building and refining ABA programs for agencies and organizations — from clinical protocols to staff training systems.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-num">05</div>
+                <h3>School & Community Consultation</h3>
+                <p>Collaborative support for educators and community partners to create inclusive, behavior-informed environments.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-num">06</div>
+                <h3>Insurance & Advocacy Support</h3>
+                <p>Helping families navigate the complex world of insurance authorizations, regional centers, and service access in Northern California.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+    <div class="cta-inner reveal">
+        <div class="section-label">Ready?</div>
+        <h2>Take the <em>leap</em>.</h2>
+        <p class="cta-sub">Whether you're a family seeking support, a clinician looking for mentorship, or an organization building better programs — let's talk about how LEAP can help.</p>
+        <div class="cta-buttons">
+            <a href="mailto:hello@leapbehavior.com" class="btn-primary">Contact Us →</a>
+            <a href="tel:+15555555555" class="btn-secondary">Schedule a Call</a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">LEAP<span>.</span></div>
+        <div class="footer-text">Lead. Empower. Advocate. Play. — © 2026 LEAP Behavioral Consulting, LLC</div>
+    </div>
+</footer>
+
+<script>
+    // Nav scroll effect
+    window.addEventListener('scroll', () => {
+        document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Mobile menu
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('open');
+        });
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
