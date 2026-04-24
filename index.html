@@ -629,6 +629,98 @@
             color: rgba(255,255,255,0.55);
         }
 
+        /* ============ INSURANCE / FUNDING ============ */
+        .insurance {
+            padding: 6rem 2rem;
+            background: white;
+            text-align: center;
+        }
+
+        .insurance .section-label { margin-bottom: 0.75rem; }
+
+        .insurance h2 { margin-bottom: 1rem; }
+
+        .insurance .section-sub {
+            max-width: 560px;
+            margin: 0 auto 3.5rem;
+        }
+
+        .insurance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .insurance-card {
+            background: var(--cream);
+            border-radius: 20px;
+            padding: 2.25rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+            border: 1px solid transparent;
+            transition: all 0.4s ease;
+        }
+
+        .insurance-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            border-color: rgba(46, 196, 182, 0.2);
+        }
+
+        .insurance-logo {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .insurance-logo img {
+            max-height: 80px;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        .insurance-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .insurance-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--teal-dark);
+            background: rgba(46, 196, 182, 0.1);
+            padding: 0.35rem 1rem;
+            border-radius: 100px;
+        }
+
+        .insurance-status::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--teal);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @media (max-width: 768px) {
+            .insurance-grid { grid-template-columns: 1fr; max-width: 360px; }
+        }
+
         /* ============ CTA ============ */
         .cta {
             padding: 6rem 2rem;
@@ -765,7 +857,7 @@
 <nav id="nav">
     <a href="#" class="nav-logo">LEAP<span>.</span></a>
     <ul class="nav-links" id="navLinks">
-        <li><a href="#values">Values</a></li>
+        <li><a href="#values">Our Approach</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#services">Services</a></li>
         <li><a href="#contact" class="nav-cta">Take the Leap</a></li>
@@ -784,9 +876,9 @@
     </div>
     <div class="hero-inner">
         <div class="hero-content">
-            <div class="hero-badge">BCBA Consulting &amp; Behavioral Services</div>
+            <div class="hero-badge">1:1 Behavioral Consultation</div>
             <h1>Let kids <em>lead</em> the&nbsp;way.</h1>
-            <p class="hero-sub">Play-based, compassionate ABA consulting built on 15 years of experience helping families thrive. Because every child communicates, and every step forward matters.</p>
+            <p class="hero-sub">Play-based, compassionate ABA consulting built on 15 years of experience helping families thrive.</p>
             <div class="hero-buttons">
                 <a href="#contact" class="btn-primary">Get Started →</a>
                 <a href="#about" class="btn-secondary">Learn More</a>
@@ -820,7 +912,7 @@
                         <div class="acronym-letter">P</div>
                         <div class="acronym-text">
                             <h3>Play</h3>
-                            <p>All play is okay, learn through joy</p>
+                            <p>All play is okay. Learn through joy</p>
                         </div>
                     </div>
                 </div>
@@ -832,9 +924,9 @@
 <!-- VALUES -->
 <section class="values" id="values">
     <div class="section-inner">
-        <div class="section-label reveal">What We Believe</div>
+        <div class="section-label reveal">Our Approach</div>
         <h2 class="reveal">Built on values that<br>put children first.</h2>
-        <p class="section-sub reveal">These aren't just words on a wall. They guide every session, every conversation, and every plan we build together.</p>
+        <p class="section-sub reveal">We are committed to neurodiversity-affirming principles. These values guide every conversation, every session, and the plan we will build together.</p>
         <div class="values-grid">
             <div class="value-card reveal">
                 <div class="value-icon">🌱</div>
@@ -881,17 +973,17 @@
                 <div class="about-float-card">
                     <div class="about-float-icon">🎓</div>
                     <div class="about-float-text">
-                        Board Certified (BCBA)
-                        <span>8 years certified</span>
+                        Board Certified Behavior Analyst
+                        <span>Since 2018</span>
                     </div>
                 </div>
             </div>
             <div class="about-content reveal">
                 <div class="section-label">About the Founder</div>
                 <h2>A leader in the field, now leading her&nbsp;own.</h2>
-                <p class="about-text">With over 15 years of experience in behavioral health and nearly a decade as a Board Certified Behavior Analyst, LEAP's founder has served as a Regional Manager and Director of Training, shaping programs, mentoring clinicians, and transforming outcomes for hundreds of families.</p>
-                <p class="about-text">As a mom of three (all under six), she doesn't just understand child development from a clinical perspective. She lives it every single day. The meltdowns at bedtime, the victories at the dinner table, the chaos and the joy of raising little humans. That real-world parenting experience gives her a unique lens when working with families.</p>
-                <p class="about-text">Now, she's bringing all of that to her own consulting practice, one built on compassion, play, and the belief that every child already has what they need to thrive.</p>
+                <p class="about-text">With over a decade of experience in Applied Behavior Analysis, the founder of LEAP has supported dozens of children and their families across a wide range of developmental needs. She brings strong clinical and operational experience, including developing training programs and mentorship for the next generation of clinicians. She remains dedicated to supporting families with individualized, evidence-based care that promotes meaningful progress.</p>
+                <p class="about-text">As a mom of three, she doesn't just understand child development and behavioral challenges from a clinical perspective. She lives it every single day: the meltdowns at bedtime, the victories at the dinner table, the chaos and the joy of raising little humans. She brings both her clinical and personal experiences to offer families effective, and realistic, interventions.</p>
+                <p class="about-text">For the founder, LEAP is a passion project built on the belief that every child already has what they need to thrive.</p>
             </div>
         </div>
     </div>
@@ -933,6 +1025,38 @@
                 <div class="service-num">06</div>
                 <h3>Insurance & Advocacy Support</h3>
                 <p>Helping families navigate the complex world of insurance authorizations, regional centers, and service access in Northern California.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- INSURANCE / FUNDING -->
+<section class="insurance" id="insurance">
+    <div class="section-inner">
+        <div class="section-label reveal">In Network &amp; Funding</div>
+        <h2 class="reveal">Insurance &amp; regional<br>center partners.</h2>
+        <p class="section-sub reveal">We're actively building partnerships to make services accessible to more families.</p>
+        <div class="insurance-grid">
+            <div class="insurance-card reveal">
+                <div class="insurance-logo">
+                    <img src="img/rceb-logo.png" alt="Regional Center of the East Bay">
+                </div>
+                <h3>RCEB</h3>
+                <div class="insurance-status">Vendorization in progress</div>
+            </div>
+            <div class="insurance-card reveal">
+                <div class="insurance-logo">
+                    <img src="img/bcbs-logo.png" alt="Blue Cross Blue Shield">
+                </div>
+                <h3>Blue Cross Blue Shield</h3>
+                <div class="insurance-status">Vendorization in progress</div>
+            </div>
+            <div class="insurance-card reveal">
+                <div class="insurance-logo">
+                    <img src="img/catalight-logo.png" alt="Catalight Care Services">
+                </div>
+                <h3>Catalight Care Services (CCS/Kaiser)</h3>
+                <div class="insurance-status">In progress</div>
             </div>
         </div>
     </div>
