@@ -58,15 +58,16 @@
         }
 
         .nav-logo {
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 1.75rem;
-            color: var(--teal-dark);
-            letter-spacing: -0.02em;
+            display: inline-block;
             text-decoration: none;
+            height: 36px;
         }
 
-        .nav-logo span { color: var(--coral); }
+        .nav-logo img {
+            height: 100%;
+            width: auto;
+            display: block;
+        }
 
         .nav-links {
             display: flex;
@@ -772,13 +773,14 @@
         }
 
         .footer-brand {
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 1.25rem;
-            color: var(--teal-dark);
+            height: 32px;
         }
 
-        .footer-brand span { color: var(--coral); }
+        .footer-brand img {
+            height: 100%;
+            width: auto;
+            display: block;
+        }
 
         .footer-text {
             font-size: 0.85rem;
@@ -855,7 +857,7 @@
 
 <!-- NAV -->
 <nav id="nav">
-    <a href="#" class="nav-logo">LEAP<span>.</span></a>
+    <a href="#" class="nav-logo"><img src="svgleap.svg" alt="LEAP Therapy"></a>
     <ul class="nav-links" id="navLinks">
         <li><a href="#values">Our Approach</a></li>
         <li><a href="#about">About</a></li>
@@ -1077,7 +1079,7 @@
 <!-- FOOTER -->
 <footer>
     <div class="footer-inner">
-        <div class="footer-brand">LEAP<span>.</span></div>
+        <div class="footer-brand"><img src="svgleap.svg" alt="LEAP Therapy"></div>
         <div class="footer-text">Lead. Empower. Advocate. Play. | © 2026 LEAP Behavioral Consulting, LLC</div>
     </div>
 </footer>
