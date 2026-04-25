@@ -564,13 +564,7 @@
 </div>
 
 <script>
-    const PASS_HASH = '7761f3a1adf46bfe9b5494f1aff1fde64163aba08b7c2301bf29071ad0b2eb27';
-
-    async function hashPassword(pw) {
-        const data = new TextEncoder().encode(pw);
-        const buf = await crypto.subtle.digest('SHA-256', data);
-        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-    }
+    const PASS_CHECK = 'cGlrYXBpa2Eh';
 
     const gate = document.getElementById('gate');
     const lab = document.getElementById('lab');
@@ -583,7 +577,7 @@
         lab.classList.add('visible');
     }
 
-    async function tryUnlock() {
+    function tryUnlock() {
         const pw = gateInput.value.trim();
         if (!pw) {
             gateInput.classList.add('error');
@@ -592,8 +586,7 @@
             return;
         }
 
-        const hash = await hashPassword(pw);
-        if (hash === PASS_HASH) {
+        if (btoa(pw) === PASS_CHECK) {
             sessionStorage.setItem('joshy_auth', 'true');
             gate.classList.add('unlocked');
             lab.classList.add('visible');
