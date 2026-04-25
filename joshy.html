@@ -532,7 +532,7 @@
             <!-- Project 1: Tonight's Hit List -->
             <div class="project-card" onclick="openViewer('tonight_hitlist.html', 'Chill & Chase — Tonight\'s Hit List')">
                 <div class="project-preview">
-                    <iframe src="tonight_hitlist.html" loading="lazy" tabindex="-1"></iframe>
+                    <iframe data-src="tonight_hitlist.html" loading="lazy" tabindex="-1"></iframe>
                     <div class="project-preview-overlay"></div>
                 </div>
                 <div class="project-info">
@@ -572,9 +572,16 @@
     const gateBtn = document.getElementById('gateBtn');
     const gateError = document.getElementById('gateError');
 
+    function activatePreviews() {
+        document.querySelectorAll('.project-preview iframe[data-src]').forEach(f => {
+            f.src = f.dataset.src;
+        });
+    }
+
     if (sessionStorage.getItem('joshy_auth') === 'true') {
         gate.classList.add('unlocked');
         lab.classList.add('visible');
+        activatePreviews();
     }
 
     function tryUnlock() {
@@ -590,6 +597,7 @@
             sessionStorage.setItem('joshy_auth', 'true');
             gate.classList.add('unlocked');
             lab.classList.add('visible');
+            activatePreviews();
             gateError.innerHTML = '&nbsp;';
         } else {
             gateInput.classList.add('error');
