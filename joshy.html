@@ -498,28 +498,8 @@
 </head>
 <body>
 
-<!-- PASSWORD GATE -->
-<div class="gate" id="gate">
-    <div class="gate-bg">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
-    <div class="gate-card">
-        <div class="gate-emoji">🔬</div>
-        <div class="gate-title">Josh's Lab</div>
-        <div class="gate-sub">This is a private creative workshop.<br>Enter the password to continue.</div>
-        <div class="gate-error-msg" id="gateError">&nbsp;</div>
-        <div class="gate-input-group">
-            <input type="password" class="gate-input" id="gateInput" placeholder="Password" autocomplete="off" autofocus>
-        </div>
-        <button class="gate-btn" id="gateBtn">Enter Lab</button>
-        <div class="gate-hint">Not a public page</div>
-    </div>
-</div>
-
-<!-- LAB CONTENT (hidden until authenticated) -->
-<div class="lab" id="lab">
+<!-- LAB CONTENT -->
+<div class="lab visible" id="lab">
     <div class="lab-header">
         <div class="lab-badge">Private Workshop</div>
         <div class="lab-title">Josh's <em>Lab</em></div>
@@ -532,7 +512,7 @@
             <!-- Project 1: Tonight's Hit List -->
             <div class="project-card" onclick="openViewer('tonight_hitlist.html', 'Chill & Chase — Tonight\'s Hit List')">
                 <div class="project-preview">
-                    <iframe data-src="tonight_hitlist.html" loading="lazy" tabindex="-1"></iframe>
+                    <iframe src="tonight_hitlist.html" loading="lazy" tabindex="-1"></iframe>
                     <div class="project-preview-overlay"></div>
                 </div>
                 <div class="project-info">
@@ -564,15 +544,6 @@
 </div>
 
 <script>
-    const gate = document.getElementById('gate');
-    const lab = document.getElementById('lab');
-
-    gate.classList.add('unlocked');
-    lab.classList.add('visible');
-    document.querySelectorAll('.project-preview iframe[data-src]').forEach(f => {
-        f.src = f.dataset.src;
-    });
-
     // Viewer
     const viewer = document.getElementById('viewer');
     const viewerFrame = document.getElementById('viewerFrame');
