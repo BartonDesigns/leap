@@ -564,52 +564,13 @@
 </div>
 
 <script>
-    const PASS_CHECK = 'cGlrYXBpa2Eh';
-
     const gate = document.getElementById('gate');
     const lab = document.getElementById('lab');
-    const gateInput = document.getElementById('gateInput');
-    const gateBtn = document.getElementById('gateBtn');
-    const gateError = document.getElementById('gateError');
 
-    function activatePreviews() {
-        document.querySelectorAll('.project-preview iframe[data-src]').forEach(f => {
-            f.src = f.dataset.src;
-        });
-    }
-
-    if (sessionStorage.getItem('joshy_auth') === 'true') {
-        gate.classList.add('unlocked');
-        lab.classList.add('visible');
-        activatePreviews();
-    }
-
-    function tryUnlock() {
-        const pw = gateInput.value.trim();
-        if (!pw) {
-            gateInput.classList.add('error');
-            gateError.textContent = 'Please enter a password';
-            setTimeout(() => gateInput.classList.remove('error'), 500);
-            return;
-        }
-
-        if (btoa(pw) === PASS_CHECK) {
-            sessionStorage.setItem('joshy_auth', 'true');
-            gate.classList.add('unlocked');
-            lab.classList.add('visible');
-            activatePreviews();
-            gateError.innerHTML = '&nbsp;';
-        } else {
-            gateInput.classList.add('error');
-            gateError.textContent = 'Wrong password, try again';
-            gateInput.value = '';
-            setTimeout(() => gateInput.classList.remove('error'), 500);
-        }
-    }
-
-    gateBtn.addEventListener('click', tryUnlock);
-    gateInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') tryUnlock();
+    gate.classList.add('unlocked');
+    lab.classList.add('visible');
+    document.querySelectorAll('.project-preview iframe[data-src]').forEach(f => {
+        f.src = f.dataset.src;
     });
 
     // Viewer
