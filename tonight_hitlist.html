@@ -1,0 +1,2226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHILL & CHASE — TONIGHT'S HIT LIST</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --gb-darkest: #0f380f;
+        --gb-dark: #306230;
+        --gb-mid: #558c27;
+        --gb-light: #8bac0f;
+        --gb-lightest: #9bbc0f;
+        --gb-glow: #bdf21d;
+        --gb-bg-base: #071407;
+        --gb-shell: #b8bab8;
+        --gb-shell-dark: #6b6d6b;
+        --gb-shell-shadow: #4a4c4a;
+        --gb-power: #ff6644;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+        width: 100%;
+        min-height: 100vh;
+        background: var(--gb-bg-base);
+        color: var(--gb-lightest);
+        font-family: 'Press Start 2P', monospace;
+        overflow-x: hidden;
+        overscroll-behavior: none;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background:
+            radial-gradient(ellipse at 30% 20%, rgba(155, 188, 15, 0.08) 0%, transparent 50%),
+            radial-gradient(ellipse at 70% 80%, rgba(139, 172, 15, 0.06) 0%, transparent 50%),
+            var(--gb-bg-base);
+        z-index: -2;
+        pointer-events: none;
+    }
+
+    body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+        opacity: 0.12;
+        mix-blend-mode: overlay;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .gameboy {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 24px 16px 60px;
+        position: relative;
+    }
+
+    .power-bar {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 20px;
+        background: linear-gradient(180deg, var(--gb-shell) 0%, var(--gb-shell-dark) 100%);
+        border: 3px solid #2a2a2a;
+        border-radius: 8px 8px 0 0;
+        box-shadow:
+            inset 0 2px 0 rgba(255, 255, 255, 0.4),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+            0 6px 0 var(--gb-shell-shadow),
+            0 10px 20px rgba(0, 0, 0, 0.6);
+        position: relative;
+    }
+
+    .power-led {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--gb-power);
+        box-shadow:
+            0 0 8px var(--gb-power),
+            0 0 14px rgba(255, 102, 68, 0.6),
+            inset 0 0 3px rgba(255, 255, 255, 0.7);
+        animation: led-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes led-pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.85; }
+    }
+
+    .power-label {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 8px;
+        color: #2a2a2a;
+        letter-spacing: 2px;
+    }
+
+    .power-title {
+        margin-left: auto;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 10px;
+        color: #2a2a2a;
+        letter-spacing: 1px;
+    }
+
+    .lcd-screen {
+        background: linear-gradient(180deg, var(--gb-shell-dark) 0%, #4a4c4a 100%);
+        padding: 24px 20px;
+        border-radius: 0 0 24px 24px;
+        border-left: 3px solid #2a2a2a;
+        border-right: 3px solid #2a2a2a;
+        border-bottom: 3px solid #2a2a2a;
+        box-shadow:
+            inset 0 -3px 8px rgba(0, 0, 0, 0.5),
+            0 8px 20px rgba(0, 0, 0, 0.6);
+        position: relative;
+    }
+
+    .lcd-inner {
+        background: linear-gradient(180deg, var(--gb-glow) 0%, var(--gb-lightest) 40%, var(--gb-light) 100%);
+        border: 8px solid #1a1a1a;
+        border-radius: 4px;
+        padding: 20px 16px;
+        position: relative;
+        min-height: 400px;
+        overflow: hidden;
+        box-shadow:
+            inset 0 0 40px rgba(15, 56, 15, 0.3),
+            inset 0 4px 8px rgba(255, 255, 255, 0.1);
+    }
+
+    .lcd-inner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            rgba(15, 56, 15, 0) 0px,
+            rgba(15, 56, 15, 0) 2px,
+            rgba(15, 56, 15, 0.12) 2px,
+            rgba(15, 56, 15, 0.12) 3px
+        );
+        pointer-events: none;
+        z-index: 10;
+        mix-blend-mode: multiply;
+    }
+
+    .lcd-inner::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 30%, transparent 70%, rgba(15, 56, 15, 0.05) 100%);
+        pointer-events: none;
+        z-index: 11;
+        animation: crt-flicker 6s linear infinite;
+    }
+
+    @keyframes crt-flicker {
+        0%, 97%, 100% { opacity: 1; }
+        98% { opacity: 0.92; }
+        99% { opacity: 1.05; }
+    }
+
+    .screen-header {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 12px 8px;
+        border: 2px solid var(--gb-darkest);
+        background: rgba(15, 56, 15, 0.08);
+        position: relative;
+        z-index: 5;
+    }
+
+    .screen-title {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 14px;
+        color: var(--gb-darkest);
+        letter-spacing: 2px;
+        line-height: 1.4;
+        text-shadow: 1px 1px 0 var(--gb-light);
+    }
+
+    .screen-subtitle {
+        font-family: 'VT323', monospace;
+        font-size: 18px;
+        color: var(--gb-dark);
+        margin-top: 8px;
+        letter-spacing: 1px;
+    }
+
+    .blink-cursor {
+        display: inline-block;
+        animation: blink 0.8s step-end infinite;
+    }
+
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+    }
+
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 5;
+    }
+
+    .stat {
+        background: rgba(15, 56, 15, 0.15);
+        border: 2px solid var(--gb-darkest);
+        padding: 8px 6px;
+        text-align: center;
+    }
+
+    .stat-num {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 14px;
+        color: var(--gb-darkest);
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .stat-label {
+        font-family: 'VT323', monospace;
+        font-size: 13px;
+        color: var(--gb-dark);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .controls {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 5;
+    }
+
+    .filter-btn {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 8px;
+        padding: 8px 12px;
+        background: var(--gb-light);
+        border: 2px solid var(--gb-darkest);
+        color: var(--gb-darkest);
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: all 0.15s ease;
+        text-transform: uppercase;
+        user-select: none;
+    }
+
+    .filter-btn:hover {
+        background: var(--gb-dark);
+        color: var(--gb-lightest);
+        transform: translate(-1px, -1px);
+        box-shadow: 2px 2px 0 var(--gb-darkest);
+    }
+
+    .filter-btn:active {
+        transform: translate(1px, 1px);
+        box-shadow: none;
+    }
+
+    .filter-btn.active {
+        background: var(--gb-darkest);
+        color: var(--gb-lightest);
+        box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .search-box {
+        flex: 1;
+        min-width: 140px;
+        font-family: 'VT323', monospace;
+        font-size: 16px;
+        padding: 8px 10px;
+        background: rgba(15, 56, 15, 0.1);
+        border: 2px solid var(--gb-darkest);
+        color: var(--gb-darkest);
+        letter-spacing: 1px;
+    }
+
+    .search-box::placeholder {
+        color: var(--gb-dark);
+        opacity: 0.7;
+    }
+
+    .search-box:focus {
+        outline: none;
+        background: rgba(15, 56, 15, 0.2);
+        box-shadow: 2px 2px 0 var(--gb-darkest);
+    }
+
+    .tier-section {
+        margin-bottom: 24px;
+        position: relative;
+        z-index: 5;
+    }
+
+    .tier-header {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 10px;
+        background: var(--gb-dark);
+        color: var(--gb-lightest);
+        padding: 8px 12px;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+        border: 2px solid var(--gb-darkest);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-shadow: 1px 1px 0 var(--gb-darkest);
+    }
+
+    .tier-count {
+        font-family: 'VT323', monospace;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+    .hit-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 6px;
+    }
+
+    .hit-card {
+        background: rgba(15, 56, 15, 0.08);
+        border: 2px solid var(--gb-darkest);
+        padding: 10px 8px;
+        cursor: pointer;
+        transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+        position: relative;
+        overflow: hidden;
+        text-align: left;
+        min-height: 60px;
+    }
+
+    /* Hover silhouette container - hidden by default */
+    .hover-stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.25s ease;
+    }
+
+    .hover-silhouette {
+        position: absolute;
+        width: 70%;
+        height: 70%;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .hover-silhouette svg {
+        width: 100%;
+        height: 100%;
+        fill: var(--gb-darkest);
+        opacity: 0.9;
+        filter: drop-shadow(0 0 4px rgba(15, 56, 15, 0.5));
+    }
+
+    .hover-pokeball {
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        z-index: 3;
+    }
+
+    .hover-pokeball .pokeball {
+        width: 100%;
+        height: 100%;
+        animation: none;
+    }
+
+    /* HOVER ACTIVE STATE */
+    .hit-card:hover {
+        background: var(--gb-mid);
+        transform: translate(-1px, -1px);
+        box-shadow: 2px 2px 0 var(--gb-darkest);
+    }
+
+    .hit-card:hover .hit-name,
+    .hit-card:hover .hit-cards {
+        opacity: 0.15;
+        transition: opacity 0.3s ease;
+    }
+
+    .hit-card:hover .hover-stage {
+        opacity: 1;
+    }
+
+    .hit-card:hover .hover-silhouette {
+        opacity: 0.85;
+        transform: scale(1);
+    }
+
+    .hit-card:hover .hover-pokeball {
+        opacity: 1;
+        transform: scale(1);
+        animation: pokeball-figure8 2.4s ease-in-out infinite;
+    }
+
+    /* Figure-8 / sine wave motion - trainer holding ball ready to throw */
+    @keyframes pokeball-figure8 {
+        0% {
+            transform: translate(-30px, -10px) rotate(-12deg) scale(1);
+        }
+        25% {
+            transform: translate(0, -20px) rotate(0deg) scale(1.05);
+        }
+        50% {
+            transform: translate(30px, -10px) rotate(12deg) scale(1);
+        }
+        75% {
+            transform: translate(0, 0px) rotate(0deg) scale(0.95);
+        }
+        100% {
+            transform: translate(-30px, -10px) rotate(-12deg) scale(1);
+        }
+    }
+
+    .hit-name {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 9px;
+        color: var(--gb-darkest);
+        line-height: 1.4;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+        word-wrap: break-word;
+        position: relative;
+        z-index: 2;
+        transition: opacity 0.2s ease;
+    }
+
+    .hit-cards {
+        font-family: 'VT323', monospace;
+        font-size: 12px;
+        color: var(--gb-dark);
+        line-height: 1.2;
+        opacity: 0.85;
+        position: relative;
+        z-index: 2;
+        transition: opacity 0.2s ease;
+    }
+
+    /* In capture mode, hide hover effect since cursor IS the pokeball */
+    body.capture-mode .hit-card:hover .hover-stage {
+        opacity: 0;
+    }
+
+    body.capture-mode .hit-card:hover .hit-name,
+    body.capture-mode .hit-card:hover .hit-cards {
+        opacity: 1;
+        color: var(--gb-lightest);
+    }
+
+    body.capture-mode .hit-card:hover {
+        background: var(--gb-dark);
+    }
+
+    /* Captured cards override hover */
+    .hit-card.captured:hover .hover-stage {
+        opacity: 0;
+    }
+
+    .hit-card.captured:hover .hit-name,
+    .hit-card.captured:hover .hit-cards {
+        opacity: 1;
+    }
+
+    .zekrom-card {
+        grid-column: 1 / -1;
+        background: var(--gb-darkest);
+        border: 3px solid var(--gb-darkest);
+        padding: 20px 16px;
+        position: relative;
+        overflow: hidden;
+        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        animation: zekrom-glow 2s ease-in-out infinite;
+        cursor: pointer;
+    }
+
+    @keyframes zekrom-glow {
+        0%, 100% {
+            box-shadow: 0 0 0 rgba(15, 56, 15, 0.6), inset 0 0 20px rgba(189, 242, 29, 0.2);
+        }
+        50% {
+            box-shadow: 0 0 20px rgba(15, 56, 15, 0.9), 0 0 40px rgba(15, 56, 15, 0.4), inset 0 0 30px rgba(189, 242, 29, 0.4);
+        }
+    }
+
+    .zekrom-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 10px,
+            rgba(155, 188, 15, 0.04) 10px,
+            rgba(155, 188, 15, 0.04) 20px
+        );
+        animation: lightning-shift 8s linear infinite;
+    }
+
+    @keyframes lightning-shift {
+        from { transform: translate(0, 0); }
+        to { transform: translate(28px, 28px); }
+    }
+
+    .zekrom-label {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 8px;
+        color: var(--gb-glow);
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 2;
+        text-align: center;
+    }
+
+    .zekrom-name {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 22px;
+        color: var(--gb-lightest);
+        letter-spacing: 3px;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        text-shadow:
+            2px 2px 0 var(--gb-dark),
+            4px 4px 0 rgba(15, 56, 15, 0.5),
+            0 0 10px rgba(189, 242, 29, 0.6);
+        margin-bottom: 10px;
+    }
+
+    .zekrom-cards {
+        font-family: 'VT323', monospace;
+        font-size: 16px;
+        color: var(--gb-light);
+        text-align: center;
+        letter-spacing: 2px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .zekrom-card:hover {
+        animation-duration: 0.8s;
+    }
+
+    .zekrom-card .hover-silhouette svg {
+        fill: var(--gb-glow);
+        opacity: 0.4;
+    }
+
+    .zekrom-card:hover .zekrom-label,
+    .zekrom-card:hover .zekrom-name,
+    .zekrom-card:hover .zekrom-cards {
+        opacity: 0.25;
+        transition: opacity 0.3s ease;
+    }
+
+    .zekrom-card:hover .hover-stage {
+        opacity: 1;
+    }
+
+    .zekrom-card:hover .hover-silhouette {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    .zekrom-card:hover .hover-pokeball {
+        opacity: 1;
+        transform: scale(1);
+        animation: pokeball-figure8 2.4s ease-in-out infinite;
+    }
+
+    body.capture-mode .zekrom-card:hover .hover-stage {
+        opacity: 0;
+    }
+
+    body.capture-mode .zekrom-card:hover .zekrom-label,
+    body.capture-mode .zekrom-card:hover .zekrom-name,
+    body.capture-mode .zekrom-card:hover .zekrom-cards {
+        opacity: 1;
+    }
+
+    .zekrom-card.captured:hover .hover-stage {
+        opacity: 0;
+    }
+
+    .zekrom-card.captured:hover .zekrom-label,
+    .zekrom-card.captured:hover .zekrom-name,
+    .zekrom-card.captured:hover .zekrom-cards {
+        opacity: 0.5;
+    }
+
+    .zekrom-label,
+    .zekrom-name,
+    .zekrom-cards {
+        transition: opacity 0.3s ease;
+    }
+
+    .hit-card.tier-fire::after {
+        content: '★';
+        position: absolute;
+        top: 2px;
+        right: 4px;
+        font-size: 10px;
+        color: var(--gb-darkest);
+    }
+
+    .hit-card.tier-mirror::after {
+        content: '◈';
+        position: absolute;
+        top: 2px;
+        right: 4px;
+        font-size: 11px;
+        color: var(--gb-darkest);
+    }
+
+    .hit-card.tier-mirror {
+        background: rgba(15, 56, 15, 0.2);
+    }
+
+    /* ===== CAPTURED STATE ===== */
+    .hit-card.captured {
+        background: rgba(15, 56, 15, 0.6) !important;
+        opacity: 0.7;
+    }
+
+    .hit-card.captured .hit-name,
+    .hit-card.captured .hit-cards {
+        color: var(--gb-light);
+        text-decoration: line-through;
+        text-decoration-color: rgba(15, 56, 15, 0.5);
+    }
+
+    .hit-card.captured::after {
+        content: '' !important;
+    }
+
+    .pokeball-overlay {
+        position: absolute;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    .hit-card.captured .pokeball-overlay {
+        display: flex;
+        animation: pokeball-land 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .zekrom-card.captured .pokeball-overlay {
+        display: flex;
+        animation: pokeball-land 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .zekrom-card.captured {
+        opacity: 0.7;
+        animation: none;
+    }
+
+    .zekrom-card.captured .zekrom-label,
+    .zekrom-card.captured .zekrom-name,
+    .zekrom-card.captured .zekrom-cards {
+        opacity: 0.5;
+        text-decoration: line-through;
+        text-decoration-color: rgba(189, 242, 29, 0.4);
+    }
+
+    .zekrom-card.captured .pokeball-overlay .pokeball {
+        width: 56px;
+        height: 56px;
+    }
+
+    @keyframes pokeball-land {
+        0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+        60% { transform: scale(1.3) rotate(20deg); opacity: 1; }
+        100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    .pokeball {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background:
+            linear-gradient(180deg, var(--gb-darkest) 0%, var(--gb-darkest) 48%, #1a1a1a 48%, #1a1a1a 52%, var(--gb-lightest) 52%, var(--gb-lightest) 100%);
+        border: 3px solid #1a1a1a;
+        box-shadow:
+            0 0 10px rgba(15, 56, 15, 0.8),
+            0 0 20px rgba(15, 56, 15, 0.4),
+            inset -3px -3px 0 rgba(0, 0, 0, 0.2),
+            inset 3px 3px 0 rgba(255, 255, 255, 0.15);
+        position: relative;
+        animation: pokeball-shake 0.6s ease-in-out 0.5s;
+    }
+
+    .pokeball::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--gb-lightest);
+        border: 2px solid #1a1a1a;
+        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes pokeball-shake {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-8deg); }
+        50% { transform: rotate(8deg); }
+        75% { transform: rotate(-4deg); }
+    }
+
+    /* Capture button in modal */
+    .capture-btn {
+        width: 100%;
+        margin-top: 12px;
+        padding: 12px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 10px;
+        letter-spacing: 2px;
+        background: var(--gb-darkest);
+        color: var(--gb-lightest);
+        border: 3px solid var(--gb-darkest);
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: all 0.15s ease;
+        position: relative;
+    }
+
+    .capture-btn:hover {
+        background: var(--gb-dark);
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--gb-darkest);
+    }
+
+    .capture-btn:active {
+        transform: translate(1px, 1px);
+        box-shadow: none;
+    }
+
+    .capture-btn.captured {
+        background: var(--gb-light);
+        color: var(--gb-darkest);
+    }
+
+    .capture-btn.captured:hover {
+        background: var(--gb-glow);
+    }
+
+    .reset-btn {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 7px;
+        padding: 6px 10px;
+        background: transparent;
+        border: 2px solid var(--gb-darkest);
+        color: var(--gb-darkest);
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: all 0.15s ease;
+        margin-left: auto;
+    }
+
+    .reset-btn:hover {
+        background: var(--gb-darkest);
+        color: var(--gb-lightest);
+    }
+
+    /* Flash effect when capturing */
+    @keyframes capture-flash {
+        0% { filter: brightness(1); }
+        30% { filter: brightness(2.5) contrast(1.5); }
+        100% { filter: brightness(1); }
+    }
+
+    .capturing {
+        animation: capture-flash 0.4s ease-out;
+    }
+
+    /* ===== QUICK CAPTURE MODE ===== */
+    body.capture-mode {
+        cursor: none;
+    }
+
+    body.capture-mode .hit-card,
+    body.capture-mode .zekrom-card,
+    body.capture-mode .filter-btn,
+    body.capture-mode .search-box,
+    body.capture-mode .reset-btn {
+        cursor: none;
+    }
+
+    body.capture-mode .hit-card:hover:not(.captured),
+    body.capture-mode .zekrom-card:hover:not(.captured) {
+        transform: translate(-2px, -2px) scale(1.02);
+        box-shadow: 4px 4px 0 var(--gb-darkest), 0 0 16px rgba(189, 242, 29, 0.6);
+        background: var(--gb-dark);
+        z-index: 2;
+    }
+
+    body.capture-mode .hit-card:hover:not(.captured) .hit-name,
+    body.capture-mode .hit-card:hover:not(.captured) .hit-cards {
+        color: var(--gb-lightest);
+    }
+
+    .cursor-pokeball {
+        position: fixed;
+        width: 36px;
+        height: 36px;
+        pointer-events: none;
+        z-index: 9999;
+        display: none;
+        transform: translate(-50%, -50%);
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    }
+
+    .cursor-pokeball.active {
+        display: block;
+        animation: cursor-float 2s ease-in-out infinite;
+    }
+
+    @keyframes cursor-float {
+        0%, 100% { transform: translate(-50%, -50%) rotate(-5deg); }
+        50% { transform: translate(-50%, -52%) rotate(5deg); }
+    }
+
+    .cursor-pokeball .pokeball {
+        width: 100%;
+        height: 100%;
+        animation: none;
+    }
+
+    .cursor-pokeball.throwing {
+        animation: cursor-throw 0.35s ease-in forwards;
+    }
+
+    @keyframes cursor-throw {
+        0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) scale(0.4) rotate(720deg); opacity: 0; }
+    }
+
+    /* Capture mode toggle button - special styling */
+    .capture-mode-btn {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 8px;
+        padding: 8px 12px;
+        background: var(--gb-dark);
+        border: 2px solid var(--gb-darkest);
+        color: var(--gb-lightest);
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: all 0.15s ease;
+        text-transform: uppercase;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .capture-mode-btn::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background:
+            linear-gradient(180deg, #d63030 0%, #d63030 48%, #1a1a1a 48%, #1a1a1a 52%, var(--gb-lightest) 52%, var(--gb-lightest) 100%);
+        border: 1px solid #1a1a1a;
+    }
+
+    .capture-mode-btn:hover {
+        background: var(--gb-darkest);
+        transform: translate(-1px, -1px);
+        box-shadow: 2px 2px 0 var(--gb-darkest);
+    }
+
+    .capture-mode-btn.active {
+        background: var(--gb-darkest);
+        color: var(--gb-glow);
+        animation: capture-mode-pulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes capture-mode-pulse {
+        0%, 100% { box-shadow: 0 0 0 rgba(189, 242, 29, 0); }
+        50% { box-shadow: 0 0 12px rgba(189, 242, 29, 0.5), 0 0 20px rgba(189, 242, 29, 0.3); }
+    }
+
+    /* Subtle name flash when captured */
+    @keyframes name-flash {
+        0% { background: transparent; color: var(--gb-darkest); }
+        20% { background: var(--gb-glow); color: var(--gb-darkest); box-shadow: 0 0 12px rgba(189, 242, 29, 0.8); }
+        100% { background: transparent; color: var(--gb-light); }
+    }
+
+    .hit-card.just-caught .hit-name {
+        animation: name-flash 0.6s ease-out;
+    }
+
+    /* Mode indicator banner */
+    .mode-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: var(--gb-darkest);
+        color: var(--gb-glow);
+        padding: 8px 16px;
+        text-align: center;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 9px;
+        letter-spacing: 2px;
+        border-bottom: 2px solid var(--gb-glow);
+        z-index: 9998;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 20px rgba(189, 242, 29, 0.3);
+    }
+
+    .mode-banner.show {
+        transform: translateY(0);
+    }
+
+    .mode-banner .blink {
+        animation: blink 0.8s step-end infinite;
+    }
+
+    /* ===== UNDO BUTTON ===== */
+    .undo-btn {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 7px;
+        padding: 6px 10px;
+        background: transparent;
+        border: 2px solid var(--gb-darkest);
+        color: var(--gb-darkest);
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .undo-btn::before {
+        content: '↶';
+        font-size: 11px;
+        font-family: monospace;
+    }
+
+    .undo-btn:hover:not(:disabled) {
+        background: var(--gb-darkest);
+        color: var(--gb-lightest);
+        transform: translate(-1px, -1px);
+        box-shadow: 2px 2px 0 var(--gb-darkest);
+    }
+
+    .undo-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+    }
+
+    .undo-btn .undo-count {
+        background: var(--gb-darkest);
+        color: var(--gb-lightest);
+        padding: 2px 5px;
+        font-size: 6px;
+        margin-left: 2px;
+    }
+
+    .undo-btn:hover:not(:disabled) .undo-count {
+        background: var(--gb-lightest);
+        color: var(--gb-darkest);
+    }
+
+    /* ===== CUSTOM CONFIRM DIALOG ===== */
+    .confirm-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 56, 15, 0.9);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 200;
+        padding: 20px;
+        backdrop-filter: blur(4px);
+    }
+
+    .confirm-overlay.active {
+        display: flex;
+        animation: overlay-in 0.2s ease;
+    }
+
+    .confirm-box {
+        background: linear-gradient(180deg, var(--gb-glow) 0%, var(--gb-lightest) 50%, var(--gb-light) 100%);
+        border: 6px solid var(--gb-darkest);
+        max-width: 400px;
+        width: 100%;
+        padding: 24px;
+        position: relative;
+        box-shadow: 8px 8px 0 var(--gb-darkest), 0 0 40px rgba(189, 242, 29, 0.4);
+        animation: modal-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .confirm-box::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(15, 56, 15, 0.1) 2px,
+            rgba(15, 56, 15, 0.1) 3px
+        );
+        pointer-events: none;
+    }
+
+    .confirm-title {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 12px;
+        color: var(--gb-darkest);
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+        text-align: center;
+    }
+
+    .confirm-message {
+        font-family: 'VT323', monospace;
+        font-size: 18px;
+        color: var(--gb-dark);
+        text-align: center;
+        margin-bottom: 20px;
+        line-height: 1.3;
+        letter-spacing: 1px;
+    }
+
+    .confirm-buttons {
+        display: flex;
+        gap: 8px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .confirm-btn {
+        flex: 1;
+        padding: 12px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 9px;
+        letter-spacing: 2px;
+        border: 3px solid var(--gb-darkest);
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+
+    .confirm-btn.primary {
+        background: var(--gb-darkest);
+        color: var(--gb-lightest);
+    }
+
+    .confirm-btn.secondary {
+        background: transparent;
+        color: var(--gb-darkest);
+    }
+
+    .confirm-btn:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--gb-darkest);
+    }
+
+    .confirm-btn.secondary:hover {
+        background: var(--gb-dark);
+        color: var(--gb-lightest);
+    }
+
+    .detail-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 56, 15, 0.85);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        padding: 20px;
+        backdrop-filter: blur(4px);
+    }
+
+    .detail-overlay.active {
+        display: flex;
+        animation: overlay-in 0.2s ease;
+    }
+
+    @keyframes overlay-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .detail-modal {
+        background: linear-gradient(180deg, var(--gb-glow) 0%, var(--gb-lightest) 50%, var(--gb-light) 100%);
+        border: 6px solid var(--gb-darkest);
+        max-width: 500px;
+        width: 100%;
+        padding: 24px;
+        position: relative;
+        box-shadow:
+            8px 8px 0 var(--gb-darkest),
+            0 0 40px rgba(189, 242, 29, 0.4);
+        animation: modal-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes modal-pop {
+        from { transform: scale(0.7) translateY(20px); opacity: 0; }
+        to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .detail-modal::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(15, 56, 15, 0.1) 2px,
+            rgba(15, 56, 15, 0.1) 3px
+        );
+        pointer-events: none;
+    }
+
+    .detail-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        background: var(--gb-darkest);
+        color: var(--gb-lightest);
+        border: 2px solid var(--gb-darkest);
+        font-family: 'Press Start 2P', monospace;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    .detail-close:hover {
+        background: var(--gb-dark);
+    }
+
+    .detail-tier {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 8px;
+        color: var(--gb-darkest);
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+        opacity: 0.7;
+    }
+
+    .detail-name {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 18px;
+        color: var(--gb-darkest);
+        letter-spacing: 1px;
+        line-height: 1.3;
+        margin-bottom: 16px;
+        word-wrap: break-word;
+    }
+
+    .detail-cards {
+        font-family: 'VT323', monospace;
+        font-size: 18px;
+        color: var(--gb-dark);
+        line-height: 1.5;
+        letter-spacing: 1px;
+        padding: 12px;
+        background: rgba(15, 56, 15, 0.1);
+        border: 2px solid var(--gb-darkest);
+        word-wrap: break-word;
+    }
+
+    .detail-footer {
+        margin-top: 16px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 7px;
+        color: var(--gb-dark);
+        letter-spacing: 2px;
+        text-align: center;
+        padding: 8px;
+        border-top: 2px dashed var(--gb-darkest);
+    }
+
+    .select-indicator {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--gb-darkest);
+        color: var(--gb-lightest);
+        padding: 12px 20px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 9px;
+        letter-spacing: 2px;
+        border: 2px solid var(--gb-lightest);
+        z-index: 50;
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+        box-shadow: 0 0 20px rgba(155, 188, 15, 0.6);
+    }
+
+    .select-indicator.show {
+        opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+        .gameboy {
+            padding: 12px 10px 40px;
+        }
+        .power-title {
+            font-size: 7px;
+        }
+        .power-label {
+            font-size: 6px;
+        }
+        .screen-title {
+            font-size: 10px;
+        }
+        .screen-subtitle {
+            font-size: 14px;
+        }
+        .hit-grid {
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        }
+        .hit-name {
+            font-size: 8px;
+        }
+        .hit-cards {
+            font-size: 11px;
+        }
+        .zekrom-name {
+            font-size: 16px;
+            letter-spacing: 2px;
+        }
+        .filter-btn {
+            font-size: 7px;
+            padding: 6px 8px;
+        }
+        .tier-header {
+            font-size: 9px;
+        }
+        .stat-num {
+            font-size: 11px;
+        }
+        .stat-label {
+            font-size: 11px;
+        }
+    }
+
+    @media (min-width: 900px) {
+        .gameboy {
+            padding: 32px 24px 80px;
+        }
+        .lcd-inner {
+            padding: 28px 24px;
+        }
+        .hit-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+        .zekrom-name {
+            font-size: 28px;
+        }
+        .screen-title {
+            font-size: 16px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="gameboy">
+
+    <div class="power-bar">
+        <div class="power-led"></div>
+        <span class="power-label">PWR</span>
+        <span class="power-title">CHILL & CHASE CO. BREAK UNIT</span>
+    </div>
+
+    <div class="lcd-screen">
+        <div class="lcd-inner">
+
+            <div class="screen-header">
+                <div class="screen-title">★ TONIGHT'S HIT LIST ★</div>
+                <div class="screen-subtitle">MEGA CHARIZARD X UPC + BLACK BOLT<span class="blink-cursor">_</span></div>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-num" id="statTotal">208</span>
+                    <span class="stat-label">Spots</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num" id="statCaptured">0</span>
+                    <span class="stat-label">Captured</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num" id="statRemaining">208</span>
+                    <span class="stat-label">Remaining</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="filter-btn active" data-filter="all">ALL</button>
+                <button class="filter-btn" data-filter="mirror">◈ INSURED</button>
+                <button class="filter-btn" data-filter="fire">★ SIR</button>
+                <button class="filter-btn" data-filter="regular">▣ IR</button>
+                <button class="filter-btn" data-filter="captured">● CAUGHT</button>
+                <input type="text" class="search-box" id="searchInput" placeholder="SEARCH...">
+                <button class="undo-btn" id="undoBtn" disabled>UNDO<span class="undo-count" id="undoCount">0</span></button>
+                <button class="reset-btn" id="resetBtn">RESET ALL</button>
+            </div>
+
+            <div class="tier-section" id="zekromSection">
+                <div class="tier-header">
+                    ⚡ CHASE OF THE NIGHT ⚡
+                </div>
+                <div class="hit-grid">
+                    <div class="zekrom-card" id="zekromCard" data-capture-id="__zekrom__">
+                        <div class="hover-stage">
+                            <div class="hover-silhouette" id="zekromSilhouette"></div>
+                            <div class="hover-pokeball"><div class="pokeball"></div></div>
+                        </div>
+                        <div class="pokeball-overlay"><div class="pokeball"></div></div>
+                        <div class="zekrom-label">BLACK BOLT — TOP HIT</div>
+                        <div class="zekrom-name">⚡ ZEKROM ⚡</div>
+                        <div class="zekrom-cards">EX · SIR · BWR (BLACK & WHITE RARE)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-section" id="mirrorSection">
+                <div class="tier-header">
+                    ◈ MIRROR / INSURED HITS
+                    <span class="tier-count" id="mirrorCount"></span>
+                </div>
+                <div class="hit-grid" id="mirrorGrid"></div>
+            </div>
+
+            <div class="tier-section" id="fireSection">
+                <div class="tier-header">
+                    ★ SIR HITS
+                    <span class="tier-count" id="fireCount"></span>
+                </div>
+                <div class="hit-grid" id="fireGrid"></div>
+            </div>
+
+            <div class="tier-section" id="regularSection">
+                <div class="tier-header">
+                    ▣ IR HITS
+                    <span class="tier-count" id="regularCount"></span>
+                </div>
+                <div class="hit-grid" id="regularGrid"></div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="detail-overlay" id="detailOverlay">
+    <div class="detail-modal">
+        <button class="detail-close" id="detailClose">X</button>
+        <div class="detail-tier" id="detailTier"></div>
+        <div class="detail-name" id="detailName"></div>
+        <div class="detail-cards" id="detailCards"></div>
+        <button class="capture-btn" id="captureBtn">● CAPTURE POKEMON</button>
+        <div class="detail-footer">▸ TAP X TO CLOSE ◂</div>
+    </div>
+</div>
+
+<div class="select-indicator" id="selectIndicator"></div>
+
+<!-- Cursor pokeball -->
+<div class="cursor-pokeball" id="cursorPokeball">
+    <div class="pokeball"></div>
+</div>
+
+<!-- Mode banner -->
+<div class="mode-banner" id="modeBanner">
+    ▸ CAPTURE MODE — TAP TO CATCH<span class="blink">_</span> ◂ · DROP BALL: [ESC] · [B] · [BUTTON]
+</div>
+
+<!-- Custom confirm dialog -->
+<div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+        <div class="confirm-title" id="confirmTitle">CONFIRM</div>
+        <div class="confirm-message" id="confirmMessage">Are you sure?</div>
+        <div class="confirm-buttons">
+            <button class="confirm-btn secondary" id="confirmCancel">CANCEL</button>
+            <button class="confirm-btn primary" id="confirmOk">CONFIRM</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const HITS = [
+    {"n": "Pikachu EX (Big Sealed Box)", "c": "INSURED - Big Sealed Box (SIR) SS 238/191", "t": "mirror"},
+    {"n": "Lugia (Big Sealed Box)", "c": "INSURED - Big Sealed Box", "t": "mirror"},
+    {"n": "Gyarados (Big Sealed Box)", "c": "INSURED - Big Sealed Box", "t": "mirror"},
+    {"n": "Ho-Oh (Big Sealed Box)", "c": "INSURED - Big Sealed Box | DR 039/182, DR 187/182 - Ethan's ex, IR", "t": "mirror"},
+    {"n": "Charizard", "c": "*INSURED* | Charizard X: PF - ex, SIR, MHR", "t": "mirror"},
+    {"n": "Pikachu", "c": "*INSURED*", "t": "mirror"},
+    {"n": "Gengar", "c": "*INSURED* | Gengar: PF - ex, SIR", "t": "mirror"},
+    {"n": "Umbreon", "c": "*INSURED* | JT - ex, SIR", "t": "mirror"},
+    {"n": "Rayquaza", "c": "*INSURED*", "t": "mirror"},
+    {"n": "Mewtwo", "c": "*INSURED* | DR 081/182, DR 193/182 - TR ex, IR", "t": "mirror"},
+    {"n": "Dragonite", "c": "*INSURED*", "t": "mirror"},
+    {"n": "Eevee", "c": "*INSURED* | JT - IR", "t": "mirror"},
+    {"n": "Psyduck", "c": "*INSURED*", "t": "mirror"},
+    {"n": "Meowth", "c": "*INSURED* | PF - IR", "t": "mirror"},
+    {"n": "Magikarp", "c": "*INSURED*", "t": "mirror"},
+    {"n": "Slowpoke", "c": "INSURED SLAB", "t": "mirror"},
+    {"n": "Trubbish", "c": "INSURED SLAB", "t": "mirror"},
+    {"n": "Ampharos", "c": "*INSURED SINGLE*", "t": "mirror"},
+    {"n": "Crobat", "c": "*INSURED SINGLE* | DR 122/182, DR 197/182 - TR ex, IR", "t": "mirror"},
+    {"n": "Braviary", "c": "*INSURED SINGLE* | BB - IR", "t": "mirror"},
+    {"n": "Emolga", "c": "*INSURED SINGLE* | BB - IR", "t": "mirror"},
+    {"n": "Froakie", "c": "*INSURED SINGLE* (Damaged Cut)", "t": "mirror"},
+    {"n": "Mega Hawlucha MAR", "c": "*INSURED SINGLE*", "t": "mirror"},
+    {"n": "Rowlet", "c": "*INSURED SINGLE* | ME - IR", "t": "mirror"},
+    {"n": "Clefable EX", "c": "*INSURED SINGLE*", "t": "mirror"},
+    {"n": "Stunkfish", "c": "INSURED - Big Sealed Box", "t": "mirror"},
+    {"n": "Pokepad", "c": "NZ 105/080 - SR | PO 059/088", "t": "fire"},
+    {"n": "Rosa's Encouragement", "c": "PO 078/088, NZ 075/080, NZ 103/080 - FA, SIR", "t": "fire"},
+    {"n": "Mega Lucario MAR", "c": "AH 227/217 - MAR", "t": "fire"},
+    {"n": "Mega Froslass MAR", "c": "AH 222/217 - MAR", "t": "fire"},
+    {"n": "Milotic", "c": "SS - ex, SIR | Mega Milotic: ME - ex, SIR", "t": "fire"},
+    {"n": "Mew", "c": "JT - ex, SIR", "t": "fire"},
+    {"n": "Latias", "c": "SS - ex, SIR", "t": "fire"},
+    {"n": "Latios", "c": "SS - ex, SIR", "t": "fire"},
+    {"n": "Victini", "c": "BB - IR, BWR (Red)", "t": "fire"},
+    {"n": "Mega Venusaur", "c": "ME - ex, SIR", "t": "fire"},
+    {"n": "Mega Blastoise", "c": "ME - ex, SIR", "t": "fire"},
+    {"n": "Mega Lucario", "c": "ME - ex, SIR", "t": "fire"},
+    {"n": "Mega Gardevoir", "c": "ME - ex, SIR", "t": "fire"},
+    {"n": "Mega Diancie", "c": "PF - ex, SIR", "t": "fire"},
+    {"n": "Garchomp", "c": "DR 104/182, DR 195/182 - Cynthia's ex, IR", "t": "fire"},
+    {"n": "Hydreigon", "c": "BB - IR | SS - ex, SIR", "t": "fire"},
+    {"n": "Serperior", "c": "BB - ex, IR, SIR", "t": "fire"},
+    {"n": "Meloetta", "c": "BB - ex, SIR", "t": "fire"},
+    {"n": "Sylveon", "c": "JT - ex, SIR", "t": "fire"},
+    {"n": "Darkrai", "c": "JT - ex, IR", "t": "fire"},
+    {"n": "Metagross", "c": "DR 140/182, DR 200/182 - Steven's ex, IR", "t": "fire"},
+    {"n": "Nidoking", "c": "DR 119/182, DR 196/182 - TR ex, IR", "t": "fire"},
+    {"n": "N (Trainer)", "c": "BB - FA, SIR", "t": "fire"},
+    {"n": "Misty (Trainer)", "c": "DR - FA, SIR", "t": "fire"},
+    {"n": "Red (Trainer)", "c": "JT - FA, SIR", "t": "fire"},
+    {"n": "Cynthia (Trainer)", "c": "DR - FA, SIR", "t": "fire"},
+    {"n": "Giovanni (Trainer)", "c": "DR - FA, SIR", "t": "fire"},
+    {"n": "Steven (Trainer)", "c": "DR - FA, SIR", "t": "fire"},
+    {"n": "Jasmine (Trainer)", "c": "SS - FA, SIR", "t": "fire"},
+    {"n": "Alomomola", "c": "BB - IR", "t": "regular"},
+    {"n": "Amoonguss", "c": "BB - IR", "t": "regular"},
+    {"n": "Arboliva", "c": "DR 023/182, DR 184/182 - ex, IR", "t": "regular"},
+    {"n": "Archaludon", "c": "SS - ex, SIR", "t": "regular"},
+    {"n": "Armarouge", "c": "PF - IR", "t": "regular"},
+    {"n": "Articuno", "c": "DR 051/182, DR 188/182 - TR, IR", "t": "regular"},
+    {"n": "Arven (Trainer)", "c": "DR - FA, SIR", "t": "regular"},
+    {"n": "Audino", "c": "BB - IR", "t": "regular"},
+    {"n": "Beartic", "c": "BB - IR", "t": "regular"},
+    {"n": "Beheeyem", "c": "BB - IR", "t": "regular"},
+    {"n": "Bianca (Trainer)", "c": "BB - FA", "t": "regular"},
+    {"n": "Bisharp", "c": "BB - IR", "t": "regular"},
+    {"n": "Blitzle", "c": "BB - IR", "t": "regular"},
+    {"n": "Boldore", "c": "BB - IR", "t": "regular"},
+    {"n": "Bouffalant", "c": "BB - IR", "t": "regular"},
+    {"n": "Carracosta", "c": "BB - IR", "t": "regular"},
+    {"n": "Ceruledge", "c": "PF - IR | JT - ex, IR", "t": "regular"},
+    {"n": "Cetitan", "c": "DR 065/182, DR 189/182 - ex, IR", "t": "regular"},
+    {"n": "Chandelure", "c": "BB - ex, IR", "t": "regular"},
+    {"n": "Chansey", "c": "JT - IR", "t": "regular"},
+    {"n": "Charcadet", "c": "PF - IR", "t": "regular"},
+    {"n": "Cheren (Trainer)", "c": "BB - FA", "t": "regular"},
+    {"n": "Cinccino", "c": "BB - IR", "t": "regular"},
+    {"n": "Cobalion", "c": "BB - IR", "t": "regular"},
+    {"n": "Conkeldurr", "c": "BB - IR", "t": "regular"},
+    {"n": "Crispin (Trainer)", "c": "SS - FA", "t": "regular"},
+    {"n": "Cryogonal", "c": "BB - IR", "t": "regular"},
+    {"n": "Cubchoo", "c": "BB - IR", "t": "regular"},
+    {"n": "Dachsbun", "c": "JT - IR", "t": "regular"},
+    {"n": "Darmanitan", "c": "BB - IR", "t": "regular"},
+    {"n": "Darumaka", "c": "BB - IR", "t": "regular"},
+    {"n": "Deino", "c": "BB - IR", "t": "regular"},
+    {"n": "Dewgong", "c": "PF - IR", "t": "regular"},
+    {"n": "Dondozo", "c": "DR 066/182, DR 190/182 - ex, IR", "t": "regular"},
+    {"n": "Doublade", "c": "PO 042/088 - IR", "t": "regular"},
+    {"n": "Drayton (Trainer)", "c": "SS - FA", "t": "regular"},
+    {"n": "Drilbur", "c": "BB - IR", "t": "regular"},
+    {"n": "Duosion", "c": "BB - IR", "t": "regular"},
+    {"n": "Durant", "c": "BB - IR | SS - IR", "t": "regular"},
+    {"n": "Eelektrik", "c": "BB - IR", "t": "regular"},
+    {"n": "Eelektross", "c": "BB - IR", "t": "regular"},
+    {"n": "Electivire", "c": "DR 069/182, DR 191/182 - ex, IR", "t": "regular"},
+    {"n": "Elgyem", "c": "BB - IR", "t": "regular"},
+    {"n": "Enamorus", "c": "SS - ex, SIR", "t": "regular"},
+    {"n": "Ethan (Trainer)", "c": "DR - FA", "t": "regular"},
+    {"n": "Ethan's Magcargo", "c": "DR 036/182 - IR", "t": "regular"},
+    {"n": "Excadrill", "c": "BB - ex, IR", "t": "regular"},
+    {"n": "Feebas", "c": "SS - IR", "t": "regular"},
+    {"n": "Fennec", "c": "PO - IR", "t": "regular"},
+    {"n": "Fennel (Trainer)", "c": "BB - FA", "t": "regular"},
+    {"n": "Ferroseed", "c": "BB - IR", "t": "regular"},
+    {"n": "Ferrothorn", "c": "BB - IR", "t": "regular"},
+    {"n": "Fidough", "c": "JT - IR", "t": "regular"},
+    {"n": "Foongus", "c": "BB - IR", "t": "regular"},
+    {"n": "Galvantula", "c": "BB - IR", "t": "regular"},
+    {"n": "Genesect", "c": "BB - ex, IR", "t": "regular"},
+    {"n": "Gigalith", "c": "BB - IR", "t": "regular"},
+    {"n": "Golett", "c": "BB - IR", "t": "regular"},
+    {"n": "Golurk", "c": "BB - IR", "t": "regular"},
+    {"n": "Gurdurr", "c": "BB - IR", "t": "regular"},
+    {"n": "Herdier", "c": "BB - IR", "t": "regular"},
+    {"n": "Hop (Trainer)", "c": "JT - FA", "t": "regular"},
+    {"n": "Hop's Trevenant", "c": "AH 096/217 - IR", "t": "regular"},
+    {"n": "Joltik", "c": "BB - IR", "t": "regular"},
+    {"n": "Kangaskhan", "c": "DR 125/182, DR 198/182 - TR ex, IR", "t": "regular"},
+    {"n": "Karrablast", "c": "BB - IR", "t": "regular"},
+    {"n": "Klang", "c": "BB - IR", "t": "regular"},
+    {"n": "Klink", "c": "BB - IR", "t": "regular"},
+    {"n": "Klinklang", "c": "BB - IR", "t": "regular"},
+    {"n": "Krokorok", "c": "BB - IR", "t": "regular"},
+    {"n": "Krookodile", "c": "BB - IR", "t": "regular"},
+    {"n": "Kyurem", "c": "BB - ex, IR", "t": "regular"},
+    {"n": "Lampent", "c": "BB - IR", "t": "regular"},
+    {"n": "Lana (Trainer)", "c": "SS - FA, SIR", "t": "regular"},
+    {"n": "Lapras", "c": "JT - ex, IR", "t": "regular"},
+    {"n": "Larry's Kommo-o", "c": "JT - IR", "t": "regular"},
+    {"n": "Larvesta", "c": "BB - IR", "t": "regular"},
+    {"n": "Leaf (Trainer)", "c": "JT - FA, SIR", "t": "regular"},
+    {"n": "Liepard", "c": "BB - IR", "t": "regular"},
+    {"n": "Lilligant", "c": "BB - IR", "t": "regular"},
+    {"n": "Lillipup", "c": "BB - IR", "t": "regular"},
+    {"n": "Litwick", "c": "BB - IR", "t": "regular"},
+    {"n": "Mabosstiff", "c": "DR 137/182, DR 199/182 - Arven's ex, IR", "t": "regular"},
+    {"n": "Magneton", "c": "SS - IR", "t": "regular"},
+    {"n": "Mandibuzz", "c": "BB - IR", "t": "regular"},
+    {"n": "Maractus", "c": "BB - IR", "t": "regular"},
+    {"n": "Mega Lopunny", "c": "ME - ex", "t": "regular"},
+    {"n": "Mega Sableye", "c": "ME - ex, SIR", "t": "regular"},
+    {"n": "Mega Sharpedo", "c": "ME - ex", "t": "regular"},
+    {"n": "Mega Slowbro", "c": "ME - ex", "t": "regular"},
+    {"n": "Mienfoo", "c": "BB - IR", "t": "regular"},
+    {"n": "Mienshao", "c": "BB - IR", "t": "regular"},
+    {"n": "Minccino", "c": "BB - IR", "t": "regular"},
+    {"n": "Mismagius", "c": "PF - IR", "t": "regular"},
+    {"n": "Moltres", "c": "DR 031/182, DR 186/182 - TR ex, IR", "t": "regular"},
+    {"n": "Morelull", "c": "JT - IR", "t": "regular"},
+    {"n": "Morpeko", "c": "JT - IR", "t": "regular"},
+    {"n": "Munna", "c": "BB - IR", "t": "regular"},
+    {"n": "Musharna", "c": "BB - IR", "t": "regular"},
+    {"n": "N's Vanilluxe", "c": "AH 051/217 - IR", "t": "regular"},
+    {"n": "Nemona (Trainer)", "c": "JT - FA", "t": "regular"},
+    {"n": "Oricorio", "c": "PF - ex, SIR", "t": "regular"},
+    {"n": "Paldean Wooper", "c": "PF - IR", "t": "regular"},
+    {"n": "Palpitoad", "c": "BB - IR", "t": "regular"},
+    {"n": "Panpour", "c": "BB - IR", "t": "regular"},
+    {"n": "Pansage", "c": "BB - IR", "t": "regular"},
+    {"n": "Patrat", "c": "BB - IR", "t": "regular"},
+    {"n": "Pawniard", "c": "BB - IR", "t": "regular"},
+    {"n": "Petilil", "c": "BB - IR", "t": "regular"},
+    {"n": "Pidove", "c": "BB - IR", "t": "regular"},
+    {"n": "Probopass", "c": "DR 098/182, NZ 037/080, NZ 088/080 - IR", "t": "regular"},
+    {"n": "Professor Juniper (Trainer)", "c": "BB - FA", "t": "regular"},
+    {"n": "Purrloin", "c": "BB - IR", "t": "regular"},
+    {"n": "Rabsca", "c": "DR 025/182, DR 185/182 - ex, IR", "t": "regular"},
+    {"n": "Regirock", "c": "DR 101/182, DR 194/182 - ex, IR", "t": "regular"},
+    {"n": "Reuniclus", "c": "BB - IR", "t": "regular"},
+    {"n": "Roggenrola", "c": "BB - IR", "t": "regular"},
+    {"n": "Rotom", "c": "PF - IR", "t": "regular"},
+    {"n": "Rufflet", "c": "BB - IR", "t": "regular"},
+    {"n": "Sandile", "c": "BB - IR", "t": "regular"},
+    {"n": "Sawk", "c": "BB - IR", "t": "regular"},
+    {"n": "Scrafty", "c": "BB - IR", "t": "regular"},
+    {"n": "Scraggy", "c": "BB - IR", "t": "regular"},
+    {"n": "Seismitoad", "c": "BB - ex, IR", "t": "regular"},
+    {"n": "Servine", "c": "BB - IR", "t": "regular"},
+    {"n": "Sigilyph", "c": "BB - IR", "t": "regular"},
+    {"n": "Simipour", "c": "BB - IR", "t": "regular"},
+    {"n": "Simisage", "c": "BB - IR", "t": "regular"},
+    {"n": "Snivy", "c": "BB - IR | ME - IR", "t": "regular"},
+    {"n": "Solosis", "c": "BB - IR", "t": "regular"},
+    {"n": "Stoutland", "c": "BB - IR", "t": "regular"},
+    {"n": "Stunfisk", "c": "BB - IR", "t": "regular"},
+    {"n": "Swoobat", "c": "BB - IR", "t": "regular"},
+    {"n": "Terapagos", "c": "SS - ex, SIR", "t": "regular"},
+    {"n": "Throh", "c": "BB - IR", "t": "regular"},
+    {"n": "Timburr", "c": "BB - IR", "t": "regular"},
+    {"n": "Tirtouga", "c": "BB - IR", "t": "regular"},
+    {"n": "Tranquill", "c": "BB - IR", "t": "regular"},
+    {"n": "Tympole", "c": "BB - IR", "t": "regular"},
+    {"n": "Tynamo", "c": "BB - IR", "t": "regular"},
+    {"n": "Unfezant", "c": "BB - IR", "t": "regular"},
+    {"n": "Volcarona", "c": "BB - IR", "t": "regular"},
+    {"n": "Vullaby", "c": "BB - IR", "t": "regular"},
+    {"n": "Watchog", "c": "BB - IR", "t": "regular"},
+    {"n": "Woobat", "c": "BB - IR", "t": "regular"},
+    {"n": "Xerxes", "c": "BB - IR", "t": "regular"},
+    {"n": "Yanmega", "c": "DR 003/182, DR 183/182 - ex, IR", "t": "regular"},
+    {"n": "Zapdos", "c": "DR 070/182, DR 192/182 - TR, IR", "t": "regular"},
+    {"n": "Zebstrika", "c": "BB - IR", "t": "regular"},
+    {"n": "Zoroark", "c": "BB - IR", "t": "regular"},
+    {"n": "Zorua", "c": "BB - IR", "t": "regular"},
+    {"n": "Zweilous", "c": "BB - IR", "t": "regular"}
+
+];
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+// ===== POKEMON SILHOUETTE SVG LIBRARY =====
+// Original simplified shapes — generic body archetypes mapped per-character
+const SILHOUETTES = {
+    // Round/Pikachu-style (rabbit/rodent)
+    rodent: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30 10 L20 5 L25 25 Q15 30 15 50 Q15 75 35 80 Q40 90 50 90 Q60 90 65 80 Q85 75 85 50 Q85 30 75 25 L80 5 L70 10 Q60 5 50 5 Q40 5 30 10 Z M40 35 Q45 35 45 40 Q45 45 40 45 Q35 45 35 40 Q35 35 40 35 Z M60 35 Q65 35 65 40 Q65 45 60 45 Q55 45 55 40 Q55 35 60 35 Z"/></svg>',
+
+    // Dragon/large quadruped (Charizard, Dragonite)
+    dragon: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 8 Q35 8 30 18 Q15 20 15 35 Q15 45 25 48 L20 65 Q15 70 18 78 L25 80 L35 75 L40 85 L50 88 L60 85 L65 75 L75 80 L82 78 Q85 70 80 65 L75 48 Q85 45 85 35 Q85 20 70 18 Q65 8 50 8 Z M5 30 Q15 25 25 30 L25 40 Q15 38 5 30 Z M95 30 Q85 25 75 30 L75 40 Q85 38 95 30 Z M40 28 Q44 28 44 32 Q44 36 40 36 Q36 36 36 32 Q36 28 40 28 Z M60 28 Q64 28 64 32 Q64 36 60 36 Q56 36 56 32 Q56 28 60 28 Z"/></svg>',
+
+    // Ghost/floating (Gengar, Mismagius, Banette)
+    ghost: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 5 Q30 5 25 25 Q15 30 15 50 Q15 75 25 88 L35 78 L45 88 L50 78 L55 88 L65 78 L75 88 Q85 75 85 50 Q85 30 75 25 Q70 5 50 5 Z M40 35 Q45 35 45 42 Q45 49 40 49 Q35 49 35 42 Q35 35 40 35 Z M60 35 Q65 35 65 42 Q65 49 60 49 Q55 49 55 42 Q55 35 60 35 Z"/></svg>',
+
+    // Reptile (Garchomp, Tyranitar, Krookodile)
+    reptile: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 10 Q40 8 35 15 L25 12 L30 22 Q20 28 20 40 L15 50 Q15 60 25 65 L20 80 Q22 88 30 88 L40 82 L50 88 L60 82 L70 88 Q78 88 80 80 L75 65 Q85 60 85 50 L80 40 Q80 28 70 22 L75 12 L65 15 Q60 8 50 10 Z M40 32 Q44 32 44 36 Q44 40 40 40 Q36 40 36 36 Q36 32 40 32 Z M60 32 Q64 32 64 36 Q64 40 60 40 Q56 40 56 36 Q56 32 60 32 Z"/></svg>',
+
+    // Bird (Articuno, Zapdos, Moltres, Ho-Oh, Lugia, Rayquaza)
+    bird: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 8 L42 22 Q35 25 35 35 Q35 45 42 48 L40 60 L30 65 L5 50 L20 60 L15 70 L40 70 L45 85 L50 90 L55 85 L60 70 L85 70 L80 60 L95 50 L70 65 L60 60 L58 48 Q65 45 65 35 Q65 25 58 22 L50 8 Z M44 30 Q47 30 47 33 Q47 36 44 36 Q41 36 41 33 Q41 30 44 30 Z M56 30 Q59 30 59 33 Q59 36 56 36 Q53 36 53 33 Q53 30 56 30 Z"/></svg>',
+
+    // Fish (Magikarp, Gyarados, Milotic, Feebas)
+    fish: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M15 50 Q15 35 30 30 Q45 25 60 30 Q75 35 80 45 L92 30 L90 50 L92 70 L80 55 Q75 65 60 70 Q45 75 30 70 Q15 65 15 50 Z M55 42 Q60 42 60 47 Q60 52 55 52 Q50 52 50 47 Q50 42 55 42 Z"/></svg>',
+
+    // Cat (Meowth, Eevee, Umbreon, Sylveon)
+    cat: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30 8 L25 22 Q20 25 20 35 Q15 40 15 50 Q15 70 30 78 Q35 88 50 88 Q65 88 70 78 Q85 70 85 50 Q85 40 80 35 Q80 25 75 22 L70 8 L62 18 Q55 15 50 15 Q45 15 38 18 L30 8 Z M40 38 Q44 38 44 42 Q44 46 40 46 Q36 46 36 42 Q36 38 40 38 Z M60 38 Q64 38 64 42 Q64 46 60 46 Q56 46 56 42 Q56 38 60 38 Z"/></svg>',
+
+    // Bug (Yanmega, Volcarona, Galvantula)
+    bug: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 15 Q40 15 35 25 L20 20 L25 35 L15 40 L25 48 L20 60 L30 58 Q30 70 40 75 L45 88 L50 90 L55 88 L60 75 Q70 70 70 58 L80 60 L75 48 L85 40 L75 35 L80 20 L65 25 Q60 15 50 15 Z M42 35 Q46 35 46 39 Q46 43 42 43 Q38 43 38 39 Q38 35 42 35 Z M58 35 Q62 35 62 39 Q62 43 58 43 Q54 43 54 39 Q54 35 58 35 Z"/></svg>',
+
+    // Trainer/humanoid silhouette
+    trainer: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 8 Q42 8 42 18 Q42 28 50 28 Q58 28 58 18 Q58 8 50 8 Z M35 32 L65 32 L70 38 L72 55 L65 58 L65 88 L58 88 L58 65 L42 65 L42 88 L35 88 L35 58 L28 55 L30 38 Z"/></svg>',
+
+    // Default mystery silhouette - "Who's That Pokemon?"
+    default: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 12 Q35 12 28 22 Q18 28 18 42 Q18 55 30 60 L25 70 L35 72 L32 85 L50 90 L68 85 L65 72 L75 70 L70 60 Q82 55 82 42 Q82 28 72 22 Q65 12 50 12 Z M50 22 Q42 22 40 30 Q40 36 50 36 Q56 36 56 42 L46 42 L46 50 L54 50 L54 56 L46 56 Q42 50 42 42 L34 42 Q34 56 50 60 Q60 60 60 50 L60 42 Q60 32 50 22 Z M44 65 Q44 70 50 70 Q56 70 56 65 Q56 60 50 60 Q44 60 44 65 Z"/></svg>',
+};
+
+// Map characters to silhouette types
+function getSilhouette(name) {
+    const lower = name.toLowerCase();
+
+    // Trainer detection
+    if (lower.includes('trainer') || lower.includes('encouragement') || lower.includes('pokepad')) {
+        return SILHOUETTES.trainer;
+    }
+
+    // Specific Pokemon mappings
+    const map = {
+        // Rodents/Pikachu-like
+        pikachu: 'rodent', raichu: 'rodent', eevee: 'cat', umbreon: 'cat', sylveon: 'cat',
+        meowth: 'cat', morpeko: 'rodent', dedenne: 'rodent', emolga: 'rodent',
+        minccino: 'rodent', cinccino: 'rodent', patrat: 'rodent', watchog: 'rodent',
+        rattata: 'rodent', raticate: 'rodent', furfrou: 'cat', purrloin: 'cat', liepard: 'cat',
+        zorua: 'cat', zoroark: 'cat',
+
+        // Dragons / quadrupeds
+        charizard: 'dragon', dragonite: 'dragon', dratini: 'dragon', dragonair: 'dragon',
+        rayquaza: 'dragon', hydreigon: 'dragon', deino: 'dragon', zweilous: 'dragon',
+        garchomp: 'dragon', gabite: 'dragon', gible: 'dragon', kommo: 'dragon',
+        zekrom: 'dragon', genesect: 'dragon', kyurem: 'dragon', latias: 'dragon', latios: 'dragon',
+
+        // Ghosts
+        gengar: 'ghost', haunter: 'ghost', gastly: 'ghost', mismagius: 'ghost',
+        misdreavus: 'ghost', shuppet: 'ghost', banette: 'ghost', mimikyu: 'ghost',
+        chandelure: 'ghost', litwick: 'ghost', lampent: 'ghost', spectrier: 'ghost',
+        spiritomb: 'ghost', phantump: 'ghost', trevenant: 'ghost',
+
+        // Reptiles
+        tyranitar: 'reptile', krookodile: 'reptile', krokorok: 'reptile', sandile: 'reptile',
+        scrafty: 'reptile', scraggy: 'reptile', salazzle: 'reptile', salandit: 'reptile',
+        feraligatr: 'reptile', croconaw: 'reptile', totodile: 'reptile',
+        nidoking: 'reptile', nidoqueen: 'reptile', nidorino: 'reptile', nidorina: 'reptile',
+        seismitoad: 'reptile', palpitoad: 'reptile', tympole: 'reptile',
+        tirtouga: 'reptile', carracosta: 'reptile', psyduck: 'reptile', golduck: 'reptile',
+
+        // Birds
+        articuno: 'bird', zapdos: 'bird', moltres: 'bird', 'ho-oh': 'bird', lugia: 'bird',
+        braviary: 'bird', rufflet: 'bird', mandibuzz: 'bird', vullaby: 'bird',
+        unfezant: 'bird', tranquill: 'bird', pidove: 'bird', stoutland: 'bird',
+        toucannon: 'bird', trumbeak: 'bird', pikipek: 'bird', talonflame: 'bird',
+        fletchinder: 'bird', fletchling: 'bird', staraptor: 'bird', staravia: 'bird', starly: 'bird',
+        skarmory: 'bird', enamorus: 'bird', mew: 'rodent', meloetta: 'bird',
+        oricorio: 'bird', volcarona: 'bug', larvesta: 'bug',
+
+        // Fish/water
+        magikarp: 'fish', gyarados: 'fish', milotic: 'fish', feebas: 'fish',
+        lapras: 'fish', alomomola: 'fish', dewgong: 'fish', seel: 'fish',
+        clamperl: 'fish', huntail: 'fish', gorebyss: 'fish', cetitan: 'fish',
+        cetoddle: 'fish', dondozo: 'fish', arrokuda: 'fish', barraskewda: 'fish',
+        wishiwashi: 'fish', basculin: 'fish', basculegion: 'fish',
+
+        // Bugs
+        yanmega: 'bug', yanma: 'bug', galvantula: 'bug', joltik: 'bug',
+        karrablast: 'bug', amoonguss: 'bug', foongus: 'bug', durant: 'bug',
+        scolipede: 'bug', whirlipede: 'bug', venipede: 'bug', vivillon: 'bug',
+        scatterbug: 'bug', spewpa: 'bug', maractus: 'bug',
+
+        // Default mons (rodent shape works for many small bipeds)
+        slowpoke: 'reptile', trubbish: 'ghost', stunfisk: 'fish', stunkfish: 'fish',
+        mewtwo: 'trainer', clefable: 'rodent', clefairy: 'rodent',
+        terapagos: 'reptile', archaludon: 'reptile',
+    };
+
+    // Find first matching key in the name
+    for (const key in map) {
+        if (lower.includes(key)) {
+            return SILHOUETTES[map[key]];
+        }
+    }
+
+    return SILHOUETTES.default;
+}
+
+// ===== CAPTURE STATE (in-memory only, artifacts don't support localStorage) =====
+const captured = new Set();
+const captureHistory = []; // Stack of actions for undo: {action: 'capture'|'release', id: string}
+let currentHit = null;
+let captureModeActive = false;
+
+function captureId(hit) {
+    if (hit.n === 'ZEKROM') return '__zekrom__';
+    return hit.n; // use name as ID
+}
+
+function isCaptured(hit) {
+    return captured.has(captureId(hit));
+}
+
+function toggleCapture(hit) {
+    const id = captureId(hit);
+    if (captured.has(id)) {
+        captured.delete(id);
+        captureHistory.push({action: 'release', id: id});
+        playBeep(440, 80);
+    } else {
+        captured.add(id);
+        captureHistory.push({action: 'capture', id: id});
+        // Pokeball catch sound - descending tones
+        playBeep(880, 60);
+        setTimeout(() => playBeep(660, 60), 80);
+        setTimeout(() => playBeep(440, 100), 180);
+        setTimeout(() => playBeep(330, 200), 320);
+    }
+    updateAllCaptureStates();
+    updateStats();
+    updateUndoBtn();
+}
+
+function updateAllCaptureStates() {
+    document.querySelectorAll('.hit-card, .zekrom-card').forEach(el => {
+        const id = el.dataset.captureId;
+        if (!id) return;
+        if (captured.has(id)) {
+            el.classList.add('captured');
+        } else {
+            el.classList.remove('captured');
+        }
+    });
+}
+
+function updateStats() {
+    const total = HITS.length + 1; // +Zekrom
+    const caught = captured.size;
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statCaptured').textContent = caught;
+    document.getElementById('statRemaining').textContent = total - caught;
+}
+
+function render(hits = HITS, search = '', showCapturedOnly = false) {
+    const mirrorGrid = document.getElementById('mirrorGrid');
+    const fireGrid = document.getElementById('fireGrid');
+    const regularGrid = document.getElementById('regularGrid');
+
+    mirrorGrid.innerHTML = '';
+    fireGrid.innerHTML = '';
+    regularGrid.innerHTML = '';
+
+    const lowerSearch = search.toLowerCase();
+    let mirror = 0, fire = 0, regular = 0;
+
+    hits.forEach(hit => {
+        if (lowerSearch && !hit.n.toLowerCase().includes(lowerSearch) &&
+            !hit.c.toLowerCase().includes(lowerSearch)) return;
+
+        if (showCapturedOnly && !isCaptured(hit)) return;
+
+        const card = document.createElement('div');
+        card.className = `hit-card tier-${hit.t}`;
+        card.dataset.captureId = captureId(hit);
+        if (isCaptured(hit)) card.classList.add('captured');
+
+        card.innerHTML = `
+            <div class="hover-stage">
+                <div class="hover-silhouette">${getSilhouette(hit.n)}</div>
+                <div class="hover-pokeball"><div class="pokeball"></div></div>
+            </div>
+            <div class="pokeball-overlay"><div class="pokeball"></div></div>
+            <div class="hit-name">${escapeHtml(hit.n)}</div>
+            <div class="hit-cards">${escapeHtml(hit.c)}</div>
+        `;
+        card.addEventListener('click', (e) => {
+            if (captureModeActive) {
+                e.stopPropagation();
+                quickCapture(hit, card, e);
+            } else {
+                quickCapture(hit, card, e);
+            }
+        });
+
+        if (hit.t === 'mirror') { mirrorGrid.appendChild(card); mirror++; }
+        else if (hit.t === 'fire') { fireGrid.appendChild(card); fire++; }
+        else { regularGrid.appendChild(card); regular++; }
+    });
+
+    document.getElementById('mirrorCount').textContent = `${mirror} SPOT${mirror !== 1 ? 'S' : ''}`;
+    document.getElementById('fireCount').textContent = `${fire} SPOT${fire !== 1 ? 'S' : ''}`;
+    document.getElementById('regularCount').textContent = `${regular} SPOT${regular !== 1 ? 'S' : ''}`;
+
+    document.getElementById('mirrorSection').style.display = mirror ? 'block' : 'none';
+    document.getElementById('fireSection').style.display = fire ? 'block' : 'none';
+    document.getElementById('regularSection').style.display = regular ? 'block' : 'none';
+
+    updateStats();
+}
+
+const overlay = document.getElementById('detailOverlay');
+const closeBtn = document.getElementById('detailClose');
+const captureBtn = document.getElementById('captureBtn');
+
+function openDetail(hit) {
+    currentHit = hit;
+    document.getElementById('detailTier').textContent =
+        hit.t === 'mirror' ? '◈ INSURED / MIRROR HIT' :
+        hit.t === 'fire' ? '★ SIR HIT' :
+        '▣ IR HIT';
+    document.getElementById('detailName').textContent = hit.n;
+    document.getElementById('detailCards').textContent = hit.c;
+
+    // Update capture button state
+    updateCaptureBtnState();
+
+    overlay.classList.add('active');
+    playBeep(hit.t === 'fire' ? 880 : hit.t === 'mirror' ? 1320 : 660);
+    showIndicator(`> SELECTED: ${hit.n.toUpperCase()}`);
+}
+
+function updateCaptureBtnState() {
+    if (!currentHit) return;
+    if (isCaptured(currentHit)) {
+        captureBtn.textContent = '✓ RELEASE POKEMON';
+        captureBtn.classList.add('captured');
+    } else {
+        captureBtn.textContent = '● CAPTURE POKEMON';
+        captureBtn.classList.remove('captured');
+    }
+}
+
+function closeDetail() {
+    overlay.classList.remove('active');
+    currentHit = null;
+    playBeep(440, 60);
+}
+
+captureBtn.addEventListener('click', () => {
+    if (!currentHit) return;
+    toggleCapture(currentHit);
+    updateCaptureBtnState();
+
+    // Flash effect on the card
+    const card = document.querySelector(`[data-capture-id="${CSS.escape(captureId(currentHit))}"]`);
+    if (card) {
+        card.classList.add('capturing');
+        setTimeout(() => card.classList.remove('capturing'), 400);
+    }
+});
+
+closeBtn.addEventListener('click', closeDetail);
+overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDetail(); });
+
+// Zekrom
+const zekromHit = {n: 'ZEKROM', c: 'BLACK BOLT — ex, SIR, BWR (Black & White Rare)', t: 'fire'};
+const zekromEl = document.getElementById('zekromCard');
+zekromEl.dataset.captureId = '__zekrom__';
+
+zekromEl.addEventListener('click', function(e) {
+    e.stopPropagation();
+    quickCapture(zekromHit, zekromEl, e);
+});
+
+let audioCtx;
+function playBeep(freq = 880, dur = 80) {
+    try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.value = freq;
+        gain.gain.value = 0.04;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur / 1000);
+        osc.stop(audioCtx.currentTime + dur / 1000);
+    } catch(e) {}
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const f = this.dataset.filter;
+        const search = document.getElementById('searchInput').value;
+
+        document.getElementById('zekromSection').style.display =
+            (f === 'all' || f === 'fire' || f === 'captured') ? 'block' : 'none';
+
+        if (f === 'captured') {
+            render(HITS, search, true);
+        } else if (f === 'all') {
+            render(HITS, search);
+        } else {
+            render(HITS.filter(h => h.t === f), search);
+        }
+
+        playBeep(550, 40);
+    });
+});
+
+document.getElementById('searchInput').addEventListener('input', function() {
+    const f = document.querySelector('.filter-btn.active').dataset.filter;
+    if (f === 'captured') {
+        render(HITS, this.value, true);
+    } else {
+        const hits = f === 'all' ? HITS : HITS.filter(h => h.t === f);
+        render(hits, this.value);
+    }
+});
+
+document.getElementById('resetBtn').addEventListener('click', function() {
+    if (captured.size === 0) {
+        showIndicator('> NO POKEMON TO RELEASE');
+        playBeep(220, 100);
+        return;
+    }
+    showConfirm(
+        'RESET ALL?',
+        `Release all ${captured.size} captured Pokemon? This cannot be undone.`,
+        () => {
+            captured.clear();
+            captureHistory.length = 0; // clear history too
+            updateAllCaptureStates();
+            updateStats();
+            updateUndoBtn();
+            playBeep(220, 200);
+            setTimeout(() => playBeep(165, 300), 100);
+            showIndicator('> ALL RELEASED');
+        }
+    );
+});
+
+// ===== UNDO SYSTEM =====
+const undoBtn = document.getElementById('undoBtn');
+const undoCount = document.getElementById('undoCount');
+
+function updateUndoBtn() {
+    const count = captureHistory.length;
+    undoCount.textContent = count;
+    undoBtn.disabled = count === 0;
+}
+
+function undoLast() {
+    if (captureHistory.length === 0) {
+        playBeep(220, 100);
+        return;
+    }
+    const last = captureHistory.pop();
+
+    if (last.action === 'capture') {
+        // Undo a capture = release
+        captured.delete(last.id);
+        showIndicator(`> UNDONE: RELEASED ${last.id.toUpperCase()}`);
+    } else {
+        // Undo a release = re-capture
+        captured.add(last.id);
+        showIndicator(`> UNDONE: RECAPTURED ${last.id.toUpperCase()}`);
+    }
+
+    updateAllCaptureStates();
+    updateStats();
+    updateUndoBtn();
+
+    // Undo sound - reverse of capture (ascending)
+    playBeep(330, 80);
+    setTimeout(() => playBeep(440, 80), 60);
+    setTimeout(() => playBeep(660, 100), 140);
+}
+
+undoBtn.addEventListener('click', undoLast);
+
+// ===== CUSTOM CONFIRM DIALOG =====
+const confirmOverlay = document.getElementById('confirmOverlay');
+const confirmTitle = document.getElementById('confirmTitle');
+const confirmMessage = document.getElementById('confirmMessage');
+const confirmOk = document.getElementById('confirmOk');
+const confirmCancel = document.getElementById('confirmCancel');
+let confirmCallback = null;
+
+function showConfirm(title, message, onConfirm) {
+    confirmTitle.textContent = title;
+    confirmMessage.textContent = message;
+    confirmCallback = onConfirm;
+    confirmOverlay.classList.add('active');
+    playBeep(660, 60);
+}
+
+function hideConfirm() {
+    confirmOverlay.classList.remove('active');
+    confirmCallback = null;
+}
+
+confirmOk.addEventListener('click', () => {
+    if (confirmCallback) confirmCallback();
+    hideConfirm();
+});
+
+confirmCancel.addEventListener('click', () => {
+    hideConfirm();
+    playBeep(440, 60);
+});
+
+confirmOverlay.addEventListener('click', (e) => {
+    if (e.target === confirmOverlay) hideConfirm();
+});
+
+let indicatorTimer;
+function showIndicator(text) {
+    const el = document.getElementById('selectIndicator');
+    el.textContent = text;
+    el.classList.add('show');
+    clearTimeout(indicatorTimer);
+    indicatorTimer = setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+// ===== QUICK CAPTURE MODE =====
+// (Capture mode kept for cursor pokeball visual aid, but clicks always capture now)
+const cursorPokeball = document.getElementById('cursorPokeball');
+const modeBanner = document.getElementById('modeBanner');
+
+function toggleCaptureMode() {
+    captureModeActive = !captureModeActive;
+    if (captureModeActive) {
+        document.body.classList.add('capture-mode');
+        cursorPokeball.classList.add('active');
+        modeBanner.classList.add('show');
+        // Pickup sound - ascending arp
+        playBeep(523, 60);
+        setTimeout(() => playBeep(659, 60), 70);
+        setTimeout(() => playBeep(784, 80), 140);
+    } else {
+        document.body.classList.remove('capture-mode');
+        cursorPokeball.classList.remove('active');
+        modeBanner.classList.remove('show');
+        playBeep(330, 150);
+    }
+}
+
+// Track cursor position for pokeball
+document.addEventListener('mousemove', (e) => {
+    if (!captureModeActive) return;
+    cursorPokeball.style.left = e.clientX + 'px';
+    cursorPokeball.style.top = e.clientY + 'px';
+});
+
+// Touch support
+document.addEventListener('touchmove', (e) => {
+    if (!captureModeActive) return;
+    const t = e.touches[0];
+    if (t) {
+        cursorPokeball.style.left = t.clientX + 'px';
+        cursorPokeball.style.top = t.clientY + 'px';
+    }
+});
+
+function quickCapture(hit, card, event) {
+    const id = captureId(hit);
+
+    // If already captured, release it
+    if (captured.has(id)) {
+        captured.delete(id);
+        card.classList.remove('captured');
+        captureHistory.push({action: 'release', id: id});
+        playBeep(440, 80);
+        updateStats();
+        updateUndoBtn();
+        showIndicator(`> RELEASED: ${hit.n.toUpperCase()}`);
+        return;
+    }
+
+    // Capture it
+    captured.add(id);
+    card.classList.add('captured');
+    captureHistory.push({action: 'capture', id: id});
+
+    // Name flash animation
+    card.classList.add('just-caught');
+    setTimeout(() => card.classList.remove('just-caught'), 700);
+
+    // Throw animation on cursor pokeball
+    cursorPokeball.classList.add('throwing');
+    setTimeout(() => {
+        cursorPokeball.classList.remove('throwing');
+    }, 350);
+
+    // Capture sound sequence
+    playBeep(880, 60);
+    setTimeout(() => playBeep(660, 60), 80);
+    setTimeout(() => playBeep(440, 100), 180);
+    setTimeout(() => playBeep(330, 200), 320);
+
+    showIndicator(`> CAUGHT: ${hit.n.toUpperCase()}`);
+    updateStats();
+    updateUndoBtn();
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    // Close confirm dialog on Escape
+    if (confirmOverlay.classList.contains('active')) {
+        if (e.key === 'Escape') hideConfirm();
+        return;
+    }
+    // Close detail modal on Escape
+    if (overlay.classList.contains('active')) {
+        if (e.key === 'Escape') closeDetail();
+        return;
+    }
+    // Don't trigger shortcuts while typing in search
+    if (document.activeElement && document.activeElement.id === 'searchInput') return;
+
+    // Undo: Ctrl/Cmd+Z or just Z
+    if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        undoLast();
+        return;
+    }
+    if (e.key === 'z' || e.key === 'Z') {
+        undoLast();
+        return;
+    }
+
+    // Exit capture mode
+    if (e.key === 'Escape' && captureModeActive) {
+        toggleCaptureMode();
+    } else if (e.key === 'b' || e.key === 'B') {
+        toggleCaptureMode();
+    }
+});
+
+render();
+
+// Inject Zekrom silhouette
+document.getElementById('zekromSilhouette').innerHTML = SILHOUETTES.dragon;
+
+setTimeout(() => playBeep(880, 100), 200);
+setTimeout(() => playBeep(1320, 150), 320);
+</script>
+
+</body>
+</html>

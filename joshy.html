@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEAP | Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream: #FFF8F0;
+            --warm-white: #FFFDFB;
+            --peach: #FFCBA4;
+            --peach-light: #FFE8D6;
+            --coral: #FF6B6B;
+            --teal: #2EC4B6;
+            --teal-dark: #1A9E92;
+            --sage: #95BF74;
+            --lavender: #B8A9C9;
+            --navy: #1D2B3A;
+            --charcoal: #2D3436;
+            --warm-gray: #6B6054;
+            --sand: #E8DDD3;
+            --font-display: 'Fraunces', serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--charcoal);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ============ PASSWORD GATE ============ */
+        .gate {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cream);
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .gate.unlocked {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .gate-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .gate-bg .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.35;
+            animation: blobFloat 14s ease-in-out infinite;
+        }
+
+        .gate-bg .blob-1 {
+            width: 420px; height: 420px;
+            background: var(--lavender);
+            top: -15%; right: -8%;
+        }
+
+        .gate-bg .blob-2 {
+            width: 350px; height: 350px;
+            background: var(--teal);
+            bottom: -12%; left: -6%;
+            animation-delay: -5s;
+            opacity: 0.2;
+        }
+
+        .gate-bg .blob-3 {
+            width: 280px; height: 280px;
+            background: var(--peach);
+            top: 40%; left: 35%;
+            animation-delay: -9s;
+            opacity: 0.25;
+        }
+
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(25px, -18px) scale(1.04); }
+            66% { transform: translate(-18px, 18px) scale(0.96); }
+        }
+
+        .gate-card {
+            position: relative;
+            z-index: 1;
+            background: white;
+            border-radius: 28px;
+            padding: 3rem 2.5rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.07);
+            animation: fadeUp 0.8s ease 0.2s both;
+        }
+
+        .gate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--teal), var(--sage), var(--peach), var(--coral), var(--lavender));
+            border-radius: 28px 28px 0 0;
+        }
+
+        .gate-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .gate-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.02em;
+        }
+
+        .gate-sub {
+            font-size: 0.95rem;
+            color: var(--warm-gray);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .gate-input-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .gate-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            border: 2px solid var(--sand);
+            border-radius: 14px;
+            background: var(--cream);
+            color: var(--charcoal);
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            text-align: center;
+            letter-spacing: 0.1em;
+        }
+
+        .gate-input:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 4px rgba(46, 196, 182, 0.12);
+        }
+
+        .gate-input.error {
+            border-color: var(--coral);
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.12);
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            75% { transform: translateX(-4px); }
+        }
+
+        .gate-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--teal);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(46, 196, 182, 0.3);
+        }
+
+        .gate-btn:hover {
+            background: var(--teal-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(46, 196, 182, 0.4);
+        }
+
+        .gate-hint {
+            font-size: 0.8rem;
+            color: var(--warm-gray);
+            margin-top: 1.25rem;
+            opacity: 0.6;
+        }
+
+        .gate-error-msg {
+            font-size: 0.85rem;
+            color: var(--coral);
+            margin-bottom: 0.75rem;
+            min-height: 1.2em;
+            transition: opacity 0.3s;
+        }
+
+        /* ============ LAB CONTENT ============ */
+        .lab {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .lab.visible { display: block; }
+
+        .lab-header {
+            padding: 2.5rem 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .lab-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(184, 169, 201, 0.15);
+            border: 1px solid rgba(184, 169, 201, 0.25);
+            padding: 0.45rem 1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #8B7BA8;
+            margin-bottom: 1rem;
+        }
+
+        .lab-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--navy);
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .lab-title em {
+            font-style: italic;
+            color: var(--teal);
+        }
+
+        .lab-sub {
+            font-size: 1.05rem;
+            color: var(--warm-gray);
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        /* ============ PROJECT GRID ============ */
+        .projects {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem 4rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid transparent;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+            border-color: rgba(46, 196, 182, 0.25);
+        }
+
+        .project-preview {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: #0f380f;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-preview iframe {
+            width: 200%;
+            height: 200%;
+            transform: scale(0.5);
+            transform-origin: top left;
+            border: none;
+            pointer-events: none;
+        }
+
+        .project-preview-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+            margin-bottom: 0.75rem;
+        }
+
+        .tag-game {
+            background: rgba(15, 56, 15, 0.1);
+            color: #306230;
+        }
+
+        .tag-tool {
+            background: rgba(46, 196, 182, 0.1);
+            color: var(--teal-dark);
+        }
+
+        .tag-fun {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--coral);
+        }
+
+        .project-name {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.4rem;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            color: var(--warm-gray);
+            line-height: 1.55;
+        }
+
+        /* ============ FULL-SCREEN VIEWER ============ */
+        .viewer-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            background: rgba(29, 43, 58, 0.92);
+            backdrop-filter: blur(12px);
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .viewer-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .viewer-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .viewer-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .viewer-close {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-family: var(--font-body);
+        }
+
+        .viewer-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .viewer-frame {
+            flex: 1;
+            border: none;
+            width: 100%;
+            background: #0f380f;
+        }
+
+        /* ============ ADD-NEW CARD ============ */
+        .add-card {
+            border: 2px dashed var(--sand);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 260px;
+            transition: all 0.3s ease;
+            cursor: default;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .add-card:hover {
+            border-color: var(--teal);
+            background: rgba(46, 196, 182, 0.03);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .add-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--warm-gray);
+            margin-bottom: 1rem;
+        }
+
+        .add-text {
+            font-size: 0.95rem;
+            color: var(--warm-gray);
+            font-weight: 500;
+        }
+
+        /* ============ FOOTER ============ */
+        .lab-footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--warm-gray);
+            opacity: 0.5;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .gate-card { padding: 2.5rem 1.75rem; }
+            .lab-header { padding: 2rem 1.5rem 1.5rem; }
+            .projects { padding: 1rem 1.5rem 3rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div class="gate" id="gate">
+    <div class="gate-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="gate-card">
+        <div class="gate-emoji">🔬</div>
+        <div class="gate-title">Josh's Lab</div>
+        <div class="gate-sub">This is a private creative workshop.<br>Enter the password to continue.</div>
+        <div class="gate-error-msg" id="gateError">&nbsp;</div>
+        <div class="gate-input-group">
+            <input type="password" class="gate-input" id="gateInput" placeholder="Password" autocomplete="off" autofocus>
+        </div>
+        <button class="gate-btn" id="gateBtn">Enter Lab</button>
+        <div class="gate-hint">Not a public page</div>
+    </div>
+</div>
+
+<!-- LAB CONTENT (hidden until authenticated) -->
+<div class="lab" id="lab">
+    <div class="lab-header">
+        <div class="lab-badge">Private Workshop</div>
+        <div class="lab-title">Josh's <em>Lab</em></div>
+        <p class="lab-sub">Side projects, experiments, and fun ideas. A creative playground.</p>
+    </div>
+
+    <div class="projects">
+        <div class="projects-grid" id="projectsGrid">
+
+            <!-- Project 1: Tonight's Hit List -->
+            <div class="project-card" onclick="openViewer('tonight_hitlist.html', 'Chill & Chase — Tonight\'s Hit List')">
+                <div class="project-preview">
+                    <iframe src="tonight_hitlist.html" loading="lazy" tabindex="-1"></iframe>
+                    <div class="project-preview-overlay"></div>
+                </div>
+                <div class="project-info">
+                    <span class="project-tag tag-game">Game Boy</span>
+                    <div class="project-name">Chill & Chase: Tonight's Hit List</div>
+                    <div class="project-desc">Retro Game Boy-styled Pokemon card hit tracker with capture mode, silhouettes, and 8-bit sound effects.</div>
+                </div>
+            </div>
+
+            <!-- Add New placeholder -->
+            <div class="add-card">
+                <div class="add-icon">+</div>
+                <div class="add-text">More coming soon</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="lab-footer">Josh's Lab &mdash; not linked from the main site</div>
+</div>
+
+<!-- FULL-SCREEN VIEWER -->
+<div class="viewer-overlay" id="viewer">
+    <div class="viewer-bar">
+        <div class="viewer-title" id="viewerTitle"></div>
+        <button class="viewer-close" id="viewerClose">&times;</button>
+    </div>
+    <iframe class="viewer-frame" id="viewerFrame"></iframe>
+</div>
+
+<script>
+    const PASS_HASH = '7761f3a1adf46bfe9b5494f1aff1fde64163aba08b7c2301bf29071ad0b2eb27';
+
+    async function hashPassword(pw) {
+        const data = new TextEncoder().encode(pw);
+        const buf = await crypto.subtle.digest('SHA-256', data);
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    const gate = document.getElementById('gate');
+    const lab = document.getElementById('lab');
+    const gateInput = document.getElementById('gateInput');
+    const gateBtn = document.getElementById('gateBtn');
+    const gateError = document.getElementById('gateError');
+
+    if (sessionStorage.getItem('joshy_auth') === 'true') {
+        gate.classList.add('unlocked');
+        lab.classList.add('visible');
+    }
+
+    async function tryUnlock() {
+        const pw = gateInput.value.trim();
+        if (!pw) {
+            gateInput.classList.add('error');
+            gateError.textContent = 'Please enter a password';
+            setTimeout(() => gateInput.classList.remove('error'), 500);
+            return;
+        }
+
+        const hash = await hashPassword(pw);
+        if (hash === PASS_HASH) {
+            sessionStorage.setItem('joshy_auth', 'true');
+            gate.classList.add('unlocked');
+            lab.classList.add('visible');
+            gateError.innerHTML = '&nbsp;';
+        } else {
+            gateInput.classList.add('error');
+            gateError.textContent = 'Wrong password, try again';
+            gateInput.value = '';
+            setTimeout(() => gateInput.classList.remove('error'), 500);
+        }
+    }
+
+    gateBtn.addEventListener('click', tryUnlock);
+    gateInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') tryUnlock();
+    });
+
+    // Viewer
+    const viewer = document.getElementById('viewer');
+    const viewerFrame = document.getElementById('viewerFrame');
+    const viewerTitle = document.getElementById('viewerTitle');
+    const viewerClose = document.getElementById('viewerClose');
+
+    function openViewer(src, title) {
+        viewerFrame.src = src;
+        viewerTitle.textContent = title;
+        viewer.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeViewer() {
+        viewer.classList.remove('active');
+        viewerFrame.src = '';
+        document.body.style.overflow = '';
+    }
+
+    viewerClose.addEventListener('click', closeViewer);
+    viewer.addEventListener('click', (e) => {
+        if (e.target === viewer) closeViewer();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && viewer.classList.contains('active')) closeViewer();
+    });
+</script>
+
+</body>
+</html>
