@@ -807,6 +807,74 @@
         color: var(--gb-lightest);
     }
 
+    /* ===== CSV UPLOAD BUTTON ===== */
+    .upload-btn {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 7px;
+        padding: 6px 10px;
+        background: var(--gb-dark);
+        border: 2px solid var(--gb-darkest);
+        color: var(--gb-lightest);
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .upload-btn::before {
+        content: '↑';
+        font-size: 11px;
+        font-family: monospace;
+    }
+
+    .upload-btn:hover {
+        background: var(--gb-darkest);
+        color: var(--gb-glow);
+        transform: translate(-1px, -1px);
+        box-shadow: 2px 2px 0 var(--gb-darkest);
+    }
+
+    .upload-btn:active {
+        transform: translate(1px, 1px);
+        box-shadow: none;
+    }
+
+    #csvFileInput {
+        display: none;
+    }
+
+    /* Toast notification for upload status */
+    .toast {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-150%);
+        background: var(--gb-darkest);
+        color: var(--gb-glow);
+        padding: 12px 24px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 9px;
+        letter-spacing: 2px;
+        border: 2px solid var(--gb-glow);
+        z-index: 9999;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 4px 20px rgba(189, 242, 29, 0.4);
+        max-width: 90vw;
+        text-align: center;
+    }
+
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.error {
+        color: #ff6644;
+        border-color: #ff6644;
+        box-shadow: 0 4px 20px rgba(255, 102, 68, 0.4);
+    }
+
     /* Flash effect when capturing */
     @keyframes capture-flash {
         0% { filter: brightness(1); }
@@ -1331,7 +1399,7 @@
 
             <div class="stats-bar">
                 <div class="stat">
-                    <span class="stat-num" id="statTotal">208</span>
+                    <span class="stat-num" id="statTotal">205</span>
                     <span class="stat-label">Spots</span>
                 </div>
                 <div class="stat">
@@ -1339,7 +1407,7 @@
                     <span class="stat-label">Captured</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-num" id="statRemaining">208</span>
+                    <span class="stat-num" id="statRemaining">205</span>
                     <span class="stat-label">Remaining</span>
                 </div>
             </div>
@@ -1351,6 +1419,8 @@
                 <button class="filter-btn" data-filter="regular">▣ IR</button>
                 <button class="filter-btn" data-filter="captured">● CAUGHT</button>
                 <input type="text" class="search-box" id="searchInput" placeholder="SEARCH...">
+                <button class="upload-btn" id="uploadBtn" title="Upload CSV">LOAD CSV</button>
+                <input type="file" id="csvFileInput" accept=".csv,text/csv">
                 <button class="undo-btn" id="undoBtn" disabled>UNDO<span class="undo-count" id="undoCount">0</span></button>
                 <button class="reset-btn" id="resetBtn">RESET ALL</button>
             </div>
@@ -1415,6 +1485,9 @@
 
 <div class="select-indicator" id="selectIndicator"></div>
 
+<!-- Toast for CSV upload feedback -->
+<div class="toast" id="toast"></div>
+
 <!-- Cursor pokeball -->
 <div class="cursor-pokeball" id="cursorPokeball">
     <div class="pokeball"></div>
@@ -1438,11 +1511,7 @@
 </div>
 
 <script>
-const HITS = [
-    {"n": "Pikachu EX (Big Sealed Box)", "c": "INSURED - Big Sealed Box (SIR) SS 238/191", "t": "mirror"},
-    {"n": "Lugia (Big Sealed Box)", "c": "INSURED - Big Sealed Box", "t": "mirror"},
-    {"n": "Gyarados (Big Sealed Box)", "c": "INSURED - Big Sealed Box", "t": "mirror"},
-    {"n": "Ho-Oh (Big Sealed Box)", "c": "INSURED - Big Sealed Box | DR 039/182, DR 187/182 - Ethan's ex, IR", "t": "mirror"},
+let HITS = [
     {"n": "Charizard", "c": "*INSURED* | Charizard X: PF - ex, SIR, MHR", "t": "mirror"},
     {"n": "Pikachu", "c": "*INSURED*", "t": "mirror"},
     {"n": "Gengar", "c": "*INSURED* | Gengar: PF - ex, SIR", "t": "mirror"},
@@ -1452,25 +1521,28 @@ const HITS = [
     {"n": "Dragonite", "c": "*INSURED*", "t": "mirror"},
     {"n": "Eevee", "c": "*INSURED* | JT - IR", "t": "mirror"},
     {"n": "Psyduck", "c": "*INSURED*", "t": "mirror"},
-    {"n": "Meowth", "c": "*INSURED* | PF - IR", "t": "mirror"},
+    {"n": "Meowth", "c": "*INSURED* | PF - IR | PO - ex / SIR", "t": "mirror"},
     {"n": "Magikarp", "c": "*INSURED*", "t": "mirror"},
+    {"n": "Mew", "c": "*INSURED* | JT - ex, SIR", "t": "mirror"},
     {"n": "Slowpoke", "c": "INSURED SLAB", "t": "mirror"},
     {"n": "Trubbish", "c": "INSURED SLAB", "t": "mirror"},
+    {"n": "Pikachu EX (Big Sealed Box)", "c": "INSURED - Big Sealed Box (SIR) SS 238/191", "t": "mirror"},
+    {"n": "Lugia (Big Sealed Box)", "c": "INSURED - Big Sealed Box", "t": "mirror"},
+    {"n": "Gyarados (Big Sealed Box)", "c": "INSURED - Big Sealed Box", "t": "mirror"},
+    {"n": "Ho-Oh (Big Sealed Box)", "c": "INSURED - Big Sealed Box | DR 039/182, DR 187/182 - Ethan's ex, IR", "t": "mirror"},
     {"n": "Ampharos", "c": "*INSURED SINGLE*", "t": "mirror"},
     {"n": "Crobat", "c": "*INSURED SINGLE* | DR 122/182, DR 197/182 - TR ex, IR", "t": "mirror"},
     {"n": "Braviary", "c": "*INSURED SINGLE* | BB - IR", "t": "mirror"},
     {"n": "Emolga", "c": "*INSURED SINGLE* | BB - IR", "t": "mirror"},
     {"n": "Froakie", "c": "*INSURED SINGLE* (Damaged Cut)", "t": "mirror"},
     {"n": "Mega Hawlucha MAR", "c": "*INSURED SINGLE*", "t": "mirror"},
-    {"n": "Rowlet", "c": "*INSURED SINGLE* | ME - IR", "t": "mirror"},
-    {"n": "Clefable EX", "c": "*INSURED SINGLE*", "t": "mirror"},
+    {"n": "Rowlet", "c": "*INSURED SINGLE* | ME - IR | PO - IR", "t": "mirror"},
     {"n": "Stunkfish", "c": "INSURED - Big Sealed Box", "t": "mirror"},
     {"n": "Pokepad", "c": "NZ 105/080 - SR | PO 059/088", "t": "fire"},
     {"n": "Rosa's Encouragement", "c": "PO 078/088, NZ 075/080, NZ 103/080 - FA, SIR", "t": "fire"},
     {"n": "Mega Lucario MAR", "c": "AH 227/217 - MAR", "t": "fire"},
     {"n": "Mega Froslass MAR", "c": "AH 222/217 - MAR", "t": "fire"},
     {"n": "Milotic", "c": "SS - ex, SIR | Mega Milotic: ME - ex, SIR", "t": "fire"},
-    {"n": "Mew", "c": "JT - ex, SIR", "t": "fire"},
     {"n": "Latias", "c": "SS - ex, SIR", "t": "fire"},
     {"n": "Latios", "c": "SS - ex, SIR", "t": "fire"},
     {"n": "Victini", "c": "BB - IR, BWR (Red)", "t": "fire"},
@@ -1480,7 +1552,7 @@ const HITS = [
     {"n": "Mega Gardevoir", "c": "ME - ex, SIR", "t": "fire"},
     {"n": "Mega Diancie", "c": "PF - ex, SIR", "t": "fire"},
     {"n": "Garchomp", "c": "DR 104/182, DR 195/182 - Cynthia's ex, IR", "t": "fire"},
-    {"n": "Hydreigon", "c": "BB - IR | SS - ex, SIR", "t": "fire"},
+    {"n": "Hydreigon", "c": "SS - ex, SIR", "t": "fire"},
     {"n": "Serperior", "c": "BB - ex, IR, SIR", "t": "fire"},
     {"n": "Meloetta", "c": "BB - ex, SIR", "t": "fire"},
     {"n": "Sylveon", "c": "JT - ex, SIR", "t": "fire"},
@@ -1494,6 +1566,11 @@ const HITS = [
     {"n": "Giovanni (Trainer)", "c": "DR - FA, SIR", "t": "fire"},
     {"n": "Steven (Trainer)", "c": "DR - FA, SIR", "t": "fire"},
     {"n": "Jasmine (Trainer)", "c": "SS - FA, SIR", "t": "fire"},
+    {"n": "Clefable", "c": "PO - ex / SIR", "t": "fire"},
+    {"n": "Starmie", "c": "PO - ex / SIR", "t": "fire"},
+    {"n": "Zygarde", "c": "PO - ex / SIR / MUR", "t": "fire"},
+    {"n": "Jacinthe (Trainer)", "c": "PO - FA / SIR", "t": "fire"},
+    {"n": "Rosa's Encouragement (Trainer)", "c": "PO - FA / SIR", "t": "fire"},
     {"n": "Alomomola", "c": "BB - IR", "t": "regular"},
     {"n": "Amoonguss", "c": "BB - IR", "t": "regular"},
     {"n": "Arboliva", "c": "DR 023/182, DR 184/182 - ex, IR", "t": "regular"},
@@ -1502,13 +1579,12 @@ const HITS = [
     {"n": "Articuno", "c": "DR 051/182, DR 188/182 - TR, IR", "t": "regular"},
     {"n": "Arven (Trainer)", "c": "DR - FA, SIR", "t": "regular"},
     {"n": "Audino", "c": "BB - IR", "t": "regular"},
+    {"n": "Aurorus", "c": "PO - IR", "t": "regular"},
     {"n": "Beartic", "c": "BB - IR", "t": "regular"},
     {"n": "Beheeyem", "c": "BB - IR", "t": "regular"},
     {"n": "Bianca (Trainer)", "c": "BB - FA", "t": "regular"},
     {"n": "Bisharp", "c": "BB - IR", "t": "regular"},
     {"n": "Blitzle", "c": "BB - IR", "t": "regular"},
-    {"n": "Boldore", "c": "BB - IR", "t": "regular"},
-    {"n": "Bouffalant", "c": "BB - IR", "t": "regular"},
     {"n": "Carracosta", "c": "BB - IR", "t": "regular"},
     {"n": "Ceruledge", "c": "PF - IR | JT - ex, IR", "t": "regular"},
     {"n": "Cetitan", "c": "DR 065/182, DR 189/182 - ex, IR", "t": "regular"},
@@ -1525,36 +1601,36 @@ const HITS = [
     {"n": "Dachsbun", "c": "JT - IR", "t": "regular"},
     {"n": "Darmanitan", "c": "BB - IR", "t": "regular"},
     {"n": "Darumaka", "c": "BB - IR", "t": "regular"},
-    {"n": "Deino", "c": "BB - IR", "t": "regular"},
+    {"n": "Decidueye", "c": "PO - ex", "t": "regular"},
+    {"n": "Dedenne", "c": "PO - IR", "t": "regular"},
     {"n": "Dewgong", "c": "PF - IR", "t": "regular"},
     {"n": "Dondozo", "c": "DR 066/182, DR 190/182 - ex, IR", "t": "regular"},
     {"n": "Doublade", "c": "PO 042/088 - IR", "t": "regular"},
+    {"n": "Drapion", "c": "PO - IR", "t": "regular"},
     {"n": "Drayton (Trainer)", "c": "SS - FA", "t": "regular"},
     {"n": "Drilbur", "c": "BB - IR", "t": "regular"},
     {"n": "Duosion", "c": "BB - IR", "t": "regular"},
-    {"n": "Durant", "c": "BB - IR | SS - IR", "t": "regular"},
+    {"n": "Durant", "c": "SS - IR", "t": "regular"},
     {"n": "Eelektrik", "c": "BB - IR", "t": "regular"},
     {"n": "Eelektross", "c": "BB - IR", "t": "regular"},
     {"n": "Electivire", "c": "DR 069/182, DR 191/182 - ex, IR", "t": "regular"},
     {"n": "Elgyem", "c": "BB - IR", "t": "regular"},
     {"n": "Enamorus", "c": "SS - ex, SIR", "t": "regular"},
+    {"n": "Espurr", "c": "PO - IR", "t": "regular"},
     {"n": "Ethan (Trainer)", "c": "DR - FA", "t": "regular"},
     {"n": "Ethan's Magcargo", "c": "DR 036/182 - IR", "t": "regular"},
     {"n": "Excadrill", "c": "BB - ex, IR", "t": "regular"},
     {"n": "Feebas", "c": "SS - IR", "t": "regular"},
     {"n": "Fennec", "c": "PO - IR", "t": "regular"},
     {"n": "Fennel (Trainer)", "c": "BB - FA", "t": "regular"},
-    {"n": "Ferroseed", "c": "BB - IR", "t": "regular"},
-    {"n": "Ferrothorn", "c": "BB - IR", "t": "regular"},
     {"n": "Fidough", "c": "JT - IR", "t": "regular"},
     {"n": "Foongus", "c": "BB - IR", "t": "regular"},
     {"n": "Galvantula", "c": "BB - IR", "t": "regular"},
     {"n": "Genesect", "c": "BB - ex, IR", "t": "regular"},
-    {"n": "Gigalith", "c": "BB - IR", "t": "regular"},
     {"n": "Golett", "c": "BB - IR", "t": "regular"},
     {"n": "Golurk", "c": "BB - IR", "t": "regular"},
     {"n": "Gurdurr", "c": "BB - IR", "t": "regular"},
-    {"n": "Herdier", "c": "BB - IR", "t": "regular"},
+    {"n": "Hippowdon", "c": "PO - IR", "t": "regular"},
     {"n": "Hop (Trainer)", "c": "JT - FA", "t": "regular"},
     {"n": "Hop's Trevenant", "c": "AH 096/217 - IR", "t": "regular"},
     {"n": "Joltik", "c": "BB - IR", "t": "regular"},
@@ -1568,14 +1644,13 @@ const HITS = [
     {"n": "Kyurem", "c": "BB - ex, IR", "t": "regular"},
     {"n": "Lampent", "c": "BB - IR", "t": "regular"},
     {"n": "Lana (Trainer)", "c": "SS - FA, SIR", "t": "regular"},
-    {"n": "Lapras", "c": "JT - ex, IR", "t": "regular"},
+    {"n": "Lapras", "c": "JT - ex / IR | PO - ex", "t": "regular"},
     {"n": "Larry's Kommo-o", "c": "JT - IR", "t": "regular"},
     {"n": "Larvesta", "c": "BB - IR", "t": "regular"},
     {"n": "Leaf (Trainer)", "c": "JT - FA, SIR", "t": "regular"},
-    {"n": "Liepard", "c": "BB - IR", "t": "regular"},
     {"n": "Lilligant", "c": "BB - IR", "t": "regular"},
-    {"n": "Lillipup", "c": "BB - IR", "t": "regular"},
     {"n": "Litwick", "c": "BB - IR", "t": "regular"},
+    {"n": "Lumiose City (Trainer)", "c": "PO - FA", "t": "regular"},
     {"n": "Mabosstiff", "c": "DR 137/182, DR 199/182 - Arven's ex, IR", "t": "regular"},
     {"n": "Magneton", "c": "SS - IR", "t": "regular"},
     {"n": "Mandibuzz", "c": "BB - IR", "t": "regular"},
@@ -1584,8 +1659,6 @@ const HITS = [
     {"n": "Mega Sableye", "c": "ME - ex, SIR", "t": "regular"},
     {"n": "Mega Sharpedo", "c": "ME - ex", "t": "regular"},
     {"n": "Mega Slowbro", "c": "ME - ex", "t": "regular"},
-    {"n": "Mienfoo", "c": "BB - IR", "t": "regular"},
-    {"n": "Mienshao", "c": "BB - IR", "t": "regular"},
     {"n": "Minccino", "c": "BB - IR", "t": "regular"},
     {"n": "Mismagius", "c": "PF - IR", "t": "regular"},
     {"n": "Moltres", "c": "DR 031/182, DR 186/182 - TR ex, IR", "t": "regular"},
@@ -1594,39 +1667,39 @@ const HITS = [
     {"n": "Munna", "c": "BB - IR", "t": "regular"},
     {"n": "Musharna", "c": "BB - IR", "t": "regular"},
     {"n": "N's Vanilluxe", "c": "AH 051/217 - IR", "t": "regular"},
+    {"n": "Naveen (Trainer)", "c": "PO - FA", "t": "regular"},
     {"n": "Nemona (Trainer)", "c": "JT - FA", "t": "regular"},
     {"n": "Oricorio", "c": "PF - ex, SIR", "t": "regular"},
     {"n": "Paldean Wooper", "c": "PF - IR", "t": "regular"},
     {"n": "Palpitoad", "c": "BB - IR", "t": "regular"},
+    {"n": "Pangoro", "c": "PO - ex", "t": "regular"},
     {"n": "Panpour", "c": "BB - IR", "t": "regular"},
     {"n": "Pansage", "c": "BB - IR", "t": "regular"},
-    {"n": "Patrat", "c": "BB - IR", "t": "regular"},
     {"n": "Pawniard", "c": "BB - IR", "t": "regular"},
     {"n": "Petilil", "c": "BB - IR", "t": "regular"},
     {"n": "Pidove", "c": "BB - IR", "t": "regular"},
-    {"n": "Probopass", "c": "DR 098/182, NZ 037/080, NZ 088/080 - IR", "t": "regular"},
+    {"n": "Probopass", "c": "DR 098/182, NZ 037/080, NZ 088/080 - IR | PO - IR", "t": "regular"},
     {"n": "Professor Juniper (Trainer)", "c": "BB - FA", "t": "regular"},
-    {"n": "Purrloin", "c": "BB - IR", "t": "regular"},
     {"n": "Rabsca", "c": "DR 025/182, DR 185/182 - ex, IR", "t": "regular"},
     {"n": "Regirock", "c": "DR 101/182, DR 194/182 - ex, IR", "t": "regular"},
     {"n": "Reuniclus", "c": "BB - IR", "t": "regular"},
-    {"n": "Roggenrola", "c": "BB - IR", "t": "regular"},
     {"n": "Rotom", "c": "PF - IR", "t": "regular"},
     {"n": "Rufflet", "c": "BB - IR", "t": "regular"},
+    {"n": "Salazzle", "c": "PO - ex", "t": "regular"},
     {"n": "Sandile", "c": "BB - IR", "t": "regular"},
-    {"n": "Sawk", "c": "BB - IR", "t": "regular"},
-    {"n": "Scrafty", "c": "BB - IR", "t": "regular"},
-    {"n": "Scraggy", "c": "BB - IR", "t": "regular"},
     {"n": "Seismitoad", "c": "BB - ex, IR", "t": "regular"},
     {"n": "Servine", "c": "BB - IR", "t": "regular"},
     {"n": "Sigilyph", "c": "BB - IR", "t": "regular"},
     {"n": "Simipour", "c": "BB - IR", "t": "regular"},
     {"n": "Simisage", "c": "BB - IR", "t": "regular"},
+    {"n": "Skarmory", "c": "AH 141/217 / DR 142/182 - IR | PO - ex", "t": "regular"},
     {"n": "Snivy", "c": "BB - IR | ME - IR", "t": "regular"},
     {"n": "Solosis", "c": "BB - IR", "t": "regular"},
-    {"n": "Stoutland", "c": "BB - IR", "t": "regular"},
+    {"n": "Spewpa", "c": "PO - IR", "t": "regular"},
     {"n": "Stunfisk", "c": "BB - IR", "t": "regular"},
     {"n": "Swoobat", "c": "BB - IR", "t": "regular"},
+    {"n": "Talonflame", "c": "PO - IR", "t": "regular"},
+    {"n": "Tarragon (Trainer)", "c": "PO - FA", "t": "regular"},
     {"n": "Terapagos", "c": "SS - ex, SIR", "t": "regular"},
     {"n": "Throh", "c": "BB - IR", "t": "regular"},
     {"n": "Timburr", "c": "BB - IR", "t": "regular"},
@@ -1637,15 +1710,12 @@ const HITS = [
     {"n": "Unfezant", "c": "BB - IR", "t": "regular"},
     {"n": "Volcarona", "c": "BB - IR", "t": "regular"},
     {"n": "Vullaby", "c": "BB - IR", "t": "regular"},
-    {"n": "Watchog", "c": "BB - IR", "t": "regular"},
     {"n": "Woobat", "c": "BB - IR", "t": "regular"},
     {"n": "Xerxes", "c": "BB - IR", "t": "regular"},
     {"n": "Yanmega", "c": "DR 003/182, DR 183/182 - ex, IR", "t": "regular"},
+    {"n": "Yveltal", "c": "PO - ex", "t": "regular"},
     {"n": "Zapdos", "c": "DR 070/182, DR 192/182 - TR, IR", "t": "regular"},
-    {"n": "Zebstrika", "c": "BB - IR", "t": "regular"},
-    {"n": "Zoroark", "c": "BB - IR", "t": "regular"},
-    {"n": "Zorua", "c": "BB - IR", "t": "regular"},
-    {"n": "Zweilous", "c": "BB - IR", "t": "regular"}
+    {"n": "Zebstrika", "c": "BB - IR", "t": "regular"}
 
 ];
 
@@ -2211,6 +2281,208 @@ document.addEventListener('keydown', (e) => {
     } else if (e.key === 'b' || e.key === 'B') {
         toggleCaptureMode();
     }
+});
+
+// ===== CSV UPLOAD =====
+const uploadBtn = document.getElementById('uploadBtn');
+const csvFileInput = document.getElementById('csvFileInput');
+const toast = document.getElementById('toast');
+
+let toastTimer;
+function showToast(message, isError = false) {
+    toast.textContent = message;
+    toast.classList.toggle('error', isError);
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3500);
+}
+
+uploadBtn.addEventListener('click', () => {
+    csvFileInput.click();
+    playBeep(660, 50);
+});
+
+csvFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        try {
+            const text = event.target.result;
+            const parsed = parseCSV(text);
+
+            if (parsed.length === 0) {
+                showToast('✗ NO VALID ROWS FOUND', true);
+                playBeep(220, 200);
+                return;
+            }
+
+            // Replace HITS
+            HITS = parsed;
+
+            // Clear captured state since the list changed
+            captured.clear();
+            captureHistory.length = 0;
+            updateUndoBtn();
+
+            // Re-render with reset filter
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+            document.getElementById('searchInput').value = '';
+            document.getElementById('zekromSection').style.display = 'block';
+
+            render();
+
+            showToast(`✓ LOADED ${parsed.length} HITS FROM ${file.name.toUpperCase()}`);
+
+            // Success chime
+            playBeep(523, 80);
+            setTimeout(() => playBeep(659, 80), 90);
+            setTimeout(() => playBeep(784, 100), 180);
+            setTimeout(() => playBeep(1047, 150), 290);
+        } catch (err) {
+            console.error('CSV parse error:', err);
+            showToast(`✗ PARSE ERROR: ${err.message}`, true);
+            playBeep(220, 300);
+        }
+    };
+    reader.onerror = () => {
+        showToast('✗ FAILED TO READ FILE', true);
+        playBeep(220, 300);
+    };
+    reader.readAsText(file);
+
+    // Reset input so re-uploading the same file triggers change
+    csvFileInput.value = '';
+});
+
+function parseCSV(text) {
+    const rows = parseCSVRows(text);
+    const hits = [];
+
+    for (const row of rows) {
+        if (row.length < 1) continue;
+        let nameRaw = (row[0] || '').trim();
+        const desc = (row[1] || '').trim();
+
+        if (!nameRaw) continue;
+
+        // Detect tier from emoji prefix
+        let tier = 'regular';
+        let cleanName = nameRaw;
+
+        if (nameRaw.includes('🪩') || nameRaw.includes('◈')) {
+            tier = 'mirror';
+            cleanName = nameRaw.replace(/🪩✨\s*/g, '').replace(/\s*✨🪩/g, '')
+                              .replace(/◈\s*/g, '').trim();
+        } else if (nameRaw.includes('🔥') || nameRaw.includes('★')) {
+            tier = 'fire';
+            cleanName = nameRaw.replace(/🔥\s*/g, '').replace(/\s*🔥/g, '')
+                              .replace(/★\s*/g, '').trim();
+        }
+
+        // Skip if name is empty after stripping
+        if (!cleanName) continue;
+
+        hits.push({
+            n: cleanName,
+            c: desc,
+            t: tier
+        });
+    }
+
+    return hits;
+}
+
+// Robust CSV row parser that handles quoted fields with commas
+function parseCSVRows(text) {
+    const rows = [];
+    let current = [];
+    let field = '';
+    let inQuotes = false;
+    let i = 0;
+
+    // Normalize line endings
+    text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+    while (i < text.length) {
+        const char = text[i];
+
+        if (inQuotes) {
+            if (char === '"') {
+                // Check for escaped quote
+                if (text[i + 1] === '"') {
+                    field += '"';
+                    i += 2;
+                    continue;
+                }
+                inQuotes = false;
+                i++;
+                continue;
+            }
+            field += char;
+            i++;
+        } else {
+            if (char === '"') {
+                inQuotes = true;
+                i++;
+            } else if (char === ',') {
+                current.push(field);
+                field = '';
+                i++;
+            } else if (char === '\n') {
+                current.push(field);
+                if (current.some(c => c.trim() !== '')) {
+                    rows.push(current);
+                }
+                current = [];
+                field = '';
+                i++;
+            } else {
+                field += char;
+                i++;
+            }
+        }
+    }
+
+    // Push final field/row
+    if (field !== '' || current.length > 0) {
+        current.push(field);
+        if (current.some(c => c.trim() !== '')) {
+            rows.push(current);
+        }
+    }
+
+    return rows;
+}
+
+// ===== DRAG AND DROP CSV =====
+document.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+});
+
+document.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const files = e.dataTransfer.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+    if (!file.name.toLowerCase().endsWith('.csv')) {
+        showToast('✗ ONLY CSV FILES SUPPORTED', true);
+        return;
+    }
+
+    // Trigger same upload flow
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    csvFileInput.files = dt.files;
+    csvFileInput.dispatchEvent(new Event('change'));
 });
 
 render();
