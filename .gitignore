@@ -1,0 +1,7 @@
+# Clinical case data must never be published — this repo serves the public LEAP website.
+cases/
+*-claude-handoff.json
+*-goals.json
+aba-goals-*.json
+*.docx
+.DS_Store
