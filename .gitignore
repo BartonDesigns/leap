@@ -2,6 +2,9 @@
 cases/
 *-claude-handoff.json
 *-goals.json
+*-interview.json
+*-treatment-suggestions.json
+*-treatment-guide.md
 aba-goals-*.json
 *.docx
 .DS_Store

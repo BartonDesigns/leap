@@ -1,6 +1,6 @@
 ---
 name: aba-plan
-description: Turn a LEAP BCBA Goal Assistant handoff file (…-claude-handoff.json), plus any interview/session transcripts, into an individualized ABA treatment plan (.docx) and a goals file that re-imports into the BCBA Goal Assistant page. Use when the user runs /aba-plan, attaches a claude-handoff.json or case file from bcba-assistant.html, or asks to write ABA skill acquisition, behavior reduction, or caregiver training goals from Vineland, ESDM, parent interview, or transcript data.
+description: Turn a LEAP BCBA Goal Assistant de-identified interview (…-interview.json + …-treatment-guide.md) or handoff file (…-claude-handoff.json), plus any interview/session transcripts, into a treatment-suggestions JSON for Step 2 of the page and/or an individualized ABA treatment plan (.docx) and a goals file that re-imports into the BCBA Goal Assistant page. Use when the user runs /aba-plan, attaches a claude-handoff.json or case file from bcba-assistant.html, or asks to write ABA skill acquisition, behavior reduction, or caregiver training goals from Vineland, ESDM, parent interview, or transcript data.
 ---
 
 # ABA treatment plan from a LEAP handoff
@@ -11,6 +11,7 @@ You are assisting a BCBA. Produce clinically sound, individualized goals and a f
 
 Find the inputs in this order:
 
+0. **Step 1 files from the page** — `*-interview.json` (`"format": "leap-interview"`: de-identified transcripts, placeholders, preliminary hints) plus `*-treatment-guide.md`. When these are attached, the guide is the contract: produce **`cases/<alias>-<date>-treatment-suggestions.json`** exactly in the guide's output format (`"type": "treatment-suggestions"`), validate it with `python3 -m json.tool`, and tell the user to upload it in **Step 2 · AI suggestions**. Then offer the .docx plan below as an optional extra. Keep every bracketed placeholder (`[Learner]`, `[Person 1]`, `[Date]`…) exactly as written and never try to re-identify anyone.
 1. A `*-claude-handoff.json` file the user attached or named (the page's **Export for Claude Code** button). Its shape:
    - `learner_alias` — use only this to refer to the learner.
    - `clinical_guidance` — the goal-writing standards the page uses. Follow them.
