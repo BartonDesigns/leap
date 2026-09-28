@@ -21,7 +21,9 @@ Find the inputs in this order:
 2. Any extra transcript files (`.txt`, `.vtt`, `.srt`, `.md`) or a draft plan `.md` the user attached.
 3. A plain case file (`{ "app": "leap-bcba-assistant", "data": {…} }`) works too—the same fields live under `data`.
 
-If there's no handoff or case file, ask for one. Don't build a plan from memory or assumptions.
+If the user gives you **only an interview transcript** (no handoff), that's a valid start—the page's workflow begins with the parent interview too. Extract the intake data first (learner profile, caregiver priorities in their own words, hard routines, reinforcers, strengths, health and family context, behaviors with likely function, emerging skills), show it to the user as a short table with evidence, then continue. List every assessment that's missing (Vineland, ESDM, direct observation, baseline data) in `clinician_flags`, and mark goals that rest on caregiver report alone.
+
+If there's no transcript, handoff, or case file at all, ask for one. Don't build a plan from memory or assumptions.
 
 ## Privacy check (before anything else)
 
